@@ -24,6 +24,6 @@ To build the image:
 
 To run the image as a container:
 
-`docker run --name python-app -p 5000:5000 my-python-app`
+`docker run --name python-app -p 8050:8050 my-python-app`
 
-App will be ran on localhost port 5000
+App will be ran on localhost port 8050
