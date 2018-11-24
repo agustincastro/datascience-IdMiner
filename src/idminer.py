@@ -43,7 +43,7 @@ nltk.download("wordnet", quiet=True)
 # En esta primera funcion se busca a partir del identificador. Se tiene en cuenta varios intentos de busqueda.
 
 
-#### Modulo 1 #####
+#### Modulo 1 ##### Todo el modulo 1 esta en fetch_article.py. Documentado. 
 
 @backoff.on_exception(backoff.expo,urllib.error.URLError,max_value=32)
 def get_text(gene):
