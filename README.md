@@ -2,6 +2,19 @@
 
 IdMiner for Term Discovery
 
+## To install dependencies using venv
+
+Create a virtual environment called virtual_env unsing python 3 venv tool.
+
+`python3 -m venv virtual_env`
+
+Activate the virtual environment
+
+`source ./virtual_env/bin/activate`
+
+Install project requirements.
+
+`pip install -r requirements.txt`
 
 ## In order to create and run a docker image for distribution:
 
