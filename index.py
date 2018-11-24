@@ -4,7 +4,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from app import app
-from src.apps import dashboard
+from src.components import dashboard
 
 # loads different apps on different urls
 
@@ -13,11 +13,12 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 
+
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/':
-         return dashboard.layout
+        return dashboard.layout
     else:
         return '404'
 

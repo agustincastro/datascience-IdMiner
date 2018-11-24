@@ -12,7 +12,8 @@ import networkx as nx
 import heapq
 
 from app import app
-
+from src.components.header import headerComponent
+from src.components.term_table import termTable
 
 dfco = pd.read_csv("data/matrix.csv", sep=",", header=0, index_col=0)
 dfterms = pd.read_csv("data/term-info.csv", sep=",",
@@ -92,9 +93,9 @@ def get_network(G, query):
                         thickness=30,
                         title='Frequency in Articles',
                         xanchor='left',
-                        titleside='right'
-                    ),
-                    ))
+                        titleside='right'),
+                    )
+    )
 
     for node in H.nodes():
         x, y = pos[node]
@@ -187,90 +188,12 @@ def get_network(G, query):
     fig1['layout']['annotations'][0]['text'] = annot
     return fig1
 
-
 f1 = get_network
 
-col = dfterms.columns[:-1]
-
 layout = html.Div(children=[
-    html.Div([
-        html.Img(src='https://raw.githubusercontent.com/sradiouy/IdMiner/master/logo_transparent_background.png',
-                 style={
-                     'height': '100px',
-                     'float': 'right',
-                     'position': 'relative',
-                     'bottom': '5px',
-                     'left': '0px'
-                 },
-                 ),
-        html.H2('IdMiner',
-                style={
-                    'position': 'relative',
-                    'top': '0px',
-                    'left': '10px',
-                    'font-family': 'Dosis',
-                    'display': 'inline',
-                    'font-size': '7.0rem',
-                    'color': '#4D637F'
-                }),
-        html.H2('for',
-                style={
-                    'position': 'relative',
-                    'top': '0px',
-                    'left': '25px',
-                    'font-family': 'Dosis',
-                    'display': 'inline',
-                    'font-size': '6.0rem',
-                    'color': '#4D637F'
-                }),
-        html.H2('Term Discovery',
-                style={
-                    'position': 'relative',
-                    'top': '0px',
-                    'left': '35px',
-                    'font-family': 'Dosis',
-                    'display': 'inline',
-                    'font-size': '7.0rem',
-                    'color': '#4D637F'
-                }),
-    ], className='row twelve columns', style={'position': 'relative', 'right': '15px'}),
-    dcc.Markdown('''
-***Idminer*** is a tool that allows you to explore terms associated with query genes. 
-The terms are extracted from articles related to the query gene obtained from parsing [PaperBLAST](http://papers.genomics.lbl.gov/cgi-bin/litSearch.cgi) tool.
-'''),
-    dash_table.DataTable(
-        id='table-sorting-filtering',
-        columns=[{"name": i, "id": i, 'deletable': True}
-                 for i in dfterms[col].columns],
-        pagination_settings={
-            'current_page': 0,
-            'page_size': PAGE_SIZE
-        },
-        pagination_mode='be',
-        sorting='be',
-        sorting_type='multi',
-        sorting_settings=[],
-        filtering='be',
-        filtering_settings='',    style_table={'overflowX': 'scroll'},
-        style_header={
-            'backgroundColor': '#91B9E5',
-            'fontWeight': 'bold',
-            'font-family': 'Dosis',
-            'textAlign': 'center',
-            'font-size': '17'
-        },
-        style_cell={
-            'backgroundColor': '#FAFAFA',
-            'minWidth': '0px', 'maxWidth': '150px',
-            'whiteSpace': 'no-wrap',
-            'overflow': 'hidden',
-            'textAlign': 'center',
-            'padding': '5px',
-            'font-size': '15'
-        }),
-    dcc.Markdown('''
-#### Select Query Term:
-'''),
+    headerComponent,
+    termTable(PAGE_SIZE, dfterms),
+    dcc.Markdown('''#### Select Query Term:'''),
     dcc.Dropdown(
         id='my-dropdown',
         options=[
@@ -278,9 +201,7 @@ The terms are extracted from articles related to the query gene obtained from pa
         ],
         value=query
     ),
-    dcc.Graph(
-        id='net_graph'
-    )
+    dcc.Graph(id='net_graph')
 ])
 
 
@@ -291,6 +212,7 @@ The terms are extracted from articles related to the query gene obtained from pa
      Input('table-sorting-filtering', 'filtering_settings')])
 def update_graph(pagination_settings, sorting_settings, filtering_settings):
     filtering_expressions = filtering_settings.split(' && ')
+    col = dfterms.columns[:-1]
     dff = dfterms[col]
     for filter in filtering_expressions:
         if ' eq ' in filter:
