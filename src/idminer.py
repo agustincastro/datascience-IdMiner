@@ -54,7 +54,6 @@ def get_text(gene):
     """
     try:
         print("Searching %s in paperblast!" % (gene))
-        primarylist = []
         url = 'http://papers.genomics.lbl.gov/cgi-bin/litSearch.cgi?query=' + gene
         response = urllib.request.urlopen(url)
         data = response.read()      # a `bytes` object
@@ -74,7 +73,6 @@ def get_text(gene):
 def get_text_from_fasta(seq):
     try:
         print("Searching gene in paperblast!")
-        primarylist = []
         url = 'http://papers.genomics.lbl.gov/cgi-bin/litSearch.cgi?query=' + seq
         response = urllib.request.urlopen(url)
         data = response.read()      # a `bytes` object
@@ -212,7 +210,7 @@ def ids_by_gene(df):
     output: genepmids: dictionary of gene (key) and articles (value).
     """
     genepmids = {}
-    for index,row in df.iterrows():
+    for row in df.iterrows():
         gene = row["id"]
         pmids = row["article"]
         genepmids[gene] = pmids
@@ -258,7 +256,6 @@ def get_words(abstractdict):
     worddict = {}
     removepunct = string.punctuation.replace("-","").replace("_","")
     table = str.maketrans('', '', removepunct)
-    wordsbyabstracts = []
     for article in abstractdict: 
         worddict[article] = ([*map(str.lower, nltk.word_tokenize(abstractdict[article].translate(table)))])
     return worddict
@@ -337,7 +334,7 @@ def get_gene_term_dicts(gramdict,idfscore):
     geneNterms = defaultdict(dict)
     gramlist = gramdict.keys()
     for term in gramlist:
-        for index,gene in enumerate(genepmids):
+        for gene in enumerate(genepmids):
             geneterms[term][gene] = ",".join([x for x in gramdict[term][2].split(",") if x in genepmids[gene].split(",")])
             if geneterms[term][gene] != "":
                 geneNterms[term][gene] = geneterms[term][gene].count(",") +1 
