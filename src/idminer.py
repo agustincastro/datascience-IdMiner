@@ -25,15 +25,12 @@ import math
 from textblob import TextBlob as tb
 from os import path
 import random
-import becas
 import json
 from collections import Counter
 from collections import defaultdict
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem.snowball import SnowballStemmer
 import string
-
-
 
 running = True
 nltk.download("stopwords", quiet=True)
@@ -458,10 +455,4 @@ create_gene_artciles_dataframe(geneterms)
 elapsed_time = time.time() - start_time
 
 print(elapsed_time," <- Informacion de articulo por gen: 5 genes")
-
-
-
-
-
-
 

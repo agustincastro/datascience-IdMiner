@@ -59,11 +59,8 @@ def get_network(G,query):
     selected_edges = list(H.edges())
     pos=nx.fruchterman_reingold_layout(H) 
 
-    Xv=[pos[k][0] for k in selected_nodes]
-    Yv=[pos[k][1] for k in selected_nodes]
     Xed=[]
     Yed=[]
-
     for edge in selected_edges:
         Xed+=[pos[edge[0]][0],pos[edge[1]][0], None]
         Yed+=[pos[edge[0]][1],pos[edge[1]][1], None] 
@@ -313,15 +310,6 @@ def update_graph(pagination_settings, sorting_settings, filtering_settings):
 
 
 @app.callback(Output('net_graph', 'figure'), [Input('my-dropdown', 'value')])
-def update_graph(selected_dropdown_value):
+def load_graph(selected_dropdown_value):
     return get_network(G,selected_dropdown_value)
-
-
-
-
-
-
-
-
-
 
