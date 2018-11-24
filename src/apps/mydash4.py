@@ -11,9 +11,12 @@ from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 import networkx as nx
 import heapq
 
-dfco = pd.read_csv("matrix.csv",sep=",",header=0,index_col = 0)
-dfterms = pd.read_csv("term-info.csv",sep=",",header=0,low_memory=False)
-dfgenesbyarticles = pd.read_csv("Publications-by_gene.csv",sep=",",header=0,low_memory=False)
+from app import app
+
+
+dfco = pd.read_csv("data/matrix.csv",sep=",",header=0,index_col = 0)
+dfterms = pd.read_csv("data/term-info.csv",sep=",",header=0,low_memory=False)
+dfgenesbyarticles = pd.read_csv("data/Publications-by_gene.csv",sep=",",header=0,low_memory=False)
 
 PAGE_SIZE = 10
 #add weights to edges
@@ -178,16 +181,9 @@ def get_network(G,query):
 
 f1 = get_network
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-
-
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-
 col = dfterms.columns[:-1]
-app.layout = html.Div(children=[
+
+layout = html.Div(children=[
     html.Div([
         html.Img(src='https://raw.githubusercontent.com/sradiouy/IdMiner/master/logo_transparent_background.png',
                 style={
@@ -277,8 +273,6 @@ The terms are extracted from articles related to the query gene obtained from pa
     )
 ])
 
-
-
 @app.callback(
     Output('table-sorting-filtering', 'data'),
     [Input('table-sorting-filtering', 'pagination_settings'),
@@ -322,8 +316,7 @@ def update_graph(pagination_settings, sorting_settings, filtering_settings):
 def update_graph(selected_dropdown_value):
     return get_network(G,selected_dropdown_value)
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+
 
 
 
