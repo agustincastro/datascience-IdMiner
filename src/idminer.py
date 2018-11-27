@@ -17,7 +17,6 @@ import IdMinerReports
 #Example of run:
 
 Input_file = os.path.join(os.path.dirname(__file__), "../data/Test_Fetch_articles/Test_fasta.fasta")
-
 Format_file = "fasta"
 Run_name = "Test_fasta"
 

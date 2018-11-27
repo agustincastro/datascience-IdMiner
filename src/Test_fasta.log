@@ -1,0 +1,65 @@
+11/27/2018 10:02:41 AM - IdMiner - INFO: Fetch article -> Duration 0 seconds
+11/27/2018 10:02:41 AM - IdMiner - ERROR: There was not file named Test_fasta.tsv
+11/27/2018 10:02:42 AM - IdMiner - INFO: Abstract by Term -> Duration 0 seconds
+11/27/2018 10:02:42 AM - IdMiner - INFO: Clean Terms -> Duration 0 seconds
+11/27/2018 10:21:38 AM - IdMiner - INFO: Searching TcCLB.509455.120 in paperblast!
+11/27/2018 10:21:51 AM - IdMiner - INFO:  -- 62 homologues detected
+11/27/2018 10:21:51 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:21:51 AM - IdMiner - INFO: Searching TcCLB.510165.20 in paperblast!
+11/27/2018 10:21:54 AM - IdMiner - INFO:  -- 6 homologues detected
+11/27/2018 10:21:54 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:21:54 AM - IdMiner - INFO: Searching TcCLB.503613.40 in paperblast!
+11/27/2018 10:21:57 AM - IdMiner - INFO:  -- 15 homologues detected
+11/27/2018 10:21:57 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:21:57 AM - IdMiner - INFO: Searching TcCLB.507611.320 in paperblast!
+11/27/2018 10:21:59 AM - IdMiner - INFO:  -- 0 homologues detected
+11/27/2018 10:21:59 AM - IdMiner - INFO: Searching TcCLB.506811.120 in paperblast!
+11/27/2018 10:22:02 AM - IdMiner - INFO:  -- 0 homologues detected
+11/27/2018 10:22:02 AM - IdMiner - INFO: Searching TcCLB.511395.70 in paperblast!
+11/27/2018 10:22:05 AM - IdMiner - INFO:  -- 2 homologues detected
+11/27/2018 10:22:05 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:22:05 AM - IdMiner - INFO: Searching TcCLB.510741.110 in paperblast!
+11/27/2018 10:22:07 AM - IdMiner - INFO:  -- 0 homologues detected
+11/27/2018 10:22:07 AM - IdMiner - INFO: Searching TcCLB.508239.10 in paperblast!
+11/27/2018 10:22:14 AM - IdMiner - INFO:  -- 51 homologues detected
+11/27/2018 10:22:14 AM - IdMiner - INFO:  -- There were 1 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:22:14 AM - IdMiner - INFO:  -- 1 articles recovered
+11/27/2018 10:22:14 AM - IdMiner - INFO: Fetch article -> Duration 37 seconds
+11/27/2018 10:22:15 AM - IdMiner - INFO: Fetching abstracts for: TcCLB.508239.10
+11/27/2018 10:22:16 AM - IdMiner - INFO:  -- we can retrieve 1 articles
+11/27/2018 10:22:16 AM - IdMiner - INFO: There was in total 1 unique articles for 1 genes
+11/27/2018 10:22:17 AM - IdMiner - INFO: Abstract by Term -> Duration 2 seconds
+11/27/2018 10:22:21 AM - IdMiner - INFO: Total terms 25
+11/27/2018 10:22:21 AM - IdMiner - INFO: Total terms to be analyzed 7
+11/27/2018 10:22:22 AM - IdMiner - INFO: Clean Terms -> Duration 4 seconds
+11/27/2018 10:28:15 AM - IdMiner - INFO: Searching TcCLB.509455.120 in paperblast!
+11/27/2018 10:28:20 AM - IdMiner - INFO:  -- 62 homologues detected
+11/27/2018 10:28:20 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:28:20 AM - IdMiner - INFO: Searching TcCLB.510165.20 in paperblast!
+11/27/2018 10:28:23 AM - IdMiner - INFO:  -- 6 homologues detected
+11/27/2018 10:28:23 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:28:23 AM - IdMiner - INFO: Searching TcCLB.503613.40 in paperblast!
+11/27/2018 10:28:25 AM - IdMiner - INFO:  -- 15 homologues detected
+11/27/2018 10:28:25 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:28:25 AM - IdMiner - INFO: Searching TcCLB.507611.320 in paperblast!
+11/27/2018 10:28:27 AM - IdMiner - INFO:  -- 0 homologues detected
+11/27/2018 10:28:27 AM - IdMiner - INFO: Searching TcCLB.506811.120 in paperblast!
+11/27/2018 10:28:29 AM - IdMiner - INFO:  -- 0 homologues detected
+11/27/2018 10:28:29 AM - IdMiner - INFO: Searching TcCLB.511395.70 in paperblast!
+11/27/2018 10:28:32 AM - IdMiner - INFO:  -- 2 homologues detected
+11/27/2018 10:28:32 AM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:28:32 AM - IdMiner - INFO: Searching TcCLB.510741.110 in paperblast!
+11/27/2018 10:28:35 AM - IdMiner - INFO:  -- 0 homologues detected
+11/27/2018 10:28:35 AM - IdMiner - INFO: Searching TcCLB.508239.10 in paperblast!
+11/27/2018 10:28:39 AM - IdMiner - INFO:  -- 51 homologues detected
+11/27/2018 10:28:39 AM - IdMiner - INFO:  -- There were 1 homologues, with at least % 50 coverage and % 50  identity
+11/27/2018 10:28:39 AM - IdMiner - INFO:  -- 1 articles recovered
+11/27/2018 10:28:39 AM - IdMiner - INFO: Fetch article -> Duration 23 seconds
+11/27/2018 10:28:39 AM - IdMiner - INFO: Fetching abstracts for: TcCLB.508239.10
+11/27/2018 10:28:40 AM - IdMiner - INFO:  -- we can retrieve 1 articles
+11/27/2018 10:28:40 AM - IdMiner - INFO: There was in total 1 unique articles for 1 genes
+11/27/2018 10:28:40 AM - IdMiner - INFO: Abstract by Term -> Duration 1 seconds
+11/27/2018 10:28:45 AM - IdMiner - INFO: Total terms 25
+11/27/2018 10:28:45 AM - IdMiner - INFO: Total terms to be analyzed 7
+11/27/2018 10:28:45 AM - IdMiner - INFO: Clean Terms -> Duration 4 seconds
+11/27/2018 10:28:45 AM - IdMiner - INFO: Reports -> Duration 0 seconds

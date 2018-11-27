@@ -53,7 +53,7 @@ def gene_articles_dict(input_file):
     genepmids = {}
     for r in df.iterrows():
         gene = r[1].id
-        pmids = r[1].article
+        pmids = str(r[1].article)
         genepmids[gene] = pmids
     return genepmids
 
