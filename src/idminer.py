@@ -2,7 +2,8 @@ import os
 import logging
 import time
 import FetchArticles
-import TermsbByAbstracts
+import TermsByAbstracts
+import PMC_fetch
 import CleanTerms
 import IdMinerReports
 
@@ -16,19 +17,19 @@ import IdMinerReports
 
 #Example of run:
 
-Input_file = os.path.join(os.path.dirname(__file__), "../data/Test_Fetch_articles/Test_fasta.fasta")
-Format_file = "fasta"
-Run_name = "Test_fasta"
+Input_file = os.path.join(os.path.dirname(__file__), "../data/Test_Fetch_articles/Test_genes.txt")
+Format_file = "text"
+Run_name = "Test_genes"
 
 
 start_time = time.time()
 logging.basicConfig(format='%(asctime)s - IdMiner - %(levelname)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',filename= Run_name + '.log',level=logging.DEBUG)
-FetchArticles.ids_by_gene(Run_name,Input_file,Format_file,50,50)
+FetchArticles.ids_by_gene(Run_name,Input_file,Format_file,30,30)
 elapsed_time = time.time() - start_time
 logging.info("Fetch article -> Duration %i seconds" %(elapsed_time))
 start_time = time.time()
-gene_pubmed = TermsbByAbstracts.gene_articles_dict(Run_name + ".tsv")
-abstractdict = TermsbByAbstracts.generate_abstracts_dict(gene_pubmed)
+gene_pubmed = TermsByAbstracts.gene_articles_dict(Run_name + ".tsv",True)
+abstractdict = TermsByAbstracts.generate_abstracts_dict(gene_pubmed)
 elapsed_time = time.time() - start_time
 logging.info("Abstract by Term -> Duration %i seconds" %(elapsed_time))
 start_time = time.time()

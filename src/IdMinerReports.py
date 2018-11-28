@@ -1,7 +1,7 @@
 from collections import defaultdict
 import pandas as pd
 from IdfZipfScore import *
-from TermsbByAbstracts import check_df_ids_by_gene, gene_articles_dict
+from TermsByAbstracts import check_df_ids_by_gene, gene_articles_dict
 
 
 def get_gene_term_dicts(genepmids,worddict,dictgram):
