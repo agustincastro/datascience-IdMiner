@@ -1,0 +1,12 @@
+#term-dropdown-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#query-term-dropdown{
+    width: 80%;
+}
+
+#union-intersection-dropdown{
+    flex: 1;
+}

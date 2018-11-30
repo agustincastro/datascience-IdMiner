@@ -189,17 +189,33 @@ def get_network(G, query):
     return fig1
 
 f1 = get_network
-
 layout = html.Div(children=[
     headerComponent,
     termTable(PAGE_SIZE, dfterms),
     dcc.Markdown('''#### Select Query Term:'''),
-    dcc.Dropdown(
-        id='my-dropdown',
-        options=[
-            {'label': i.title(), 'value': i} for i in sorted(dfterms.Terms.unique())
-        ],
-        value=query
+
+    html.Div(
+        id='term-dropdown-container',
+        children=[
+            dcc.Dropdown(
+                id='query-term-dropdown',
+                options=[
+                    {'label': i.title(), 'value': i} for i in sorted(dfterms.Terms.unique())
+                ],
+                multi=True,
+                value=query
+            ),
+            dcc.Dropdown(
+                id='union-intersection-dropdown',
+                options=[
+                    {'label': 'Union', 'value': 'UNION'},
+                    {'label': 'Intersection', 'value': 'INTERSECTION'}
+                ],
+                value='UNION',
+                searchable=False,
+                clearable=False
+            )
+        ]
     ),
     dcc.Graph(id='net_graph')
 ])
@@ -245,6 +261,6 @@ def update_graph(pagination_settings, sorting_settings, filtering_settings):
     ].to_dict('rows')
 
 
-@app.callback(Output('net_graph', 'figure'), [Input('my-dropdown', 'value')])
+@app.callback(Output('net_graph', 'figure'), [Input('query-term-dropdown', 'value')])
 def load_graph(selected_dropdown_value):
     return get_network(G, selected_dropdown_value)
