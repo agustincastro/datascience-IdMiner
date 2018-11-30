@@ -40,7 +40,7 @@ try:
 except:
     query = dfterms.sort_values("Articles", ascending=False).iloc[0]["Terms"]
 
-# networkx graph time!
+# network graph time!
 G = nx.Graph()
 node_list = dfco.columns.tolist()
 
