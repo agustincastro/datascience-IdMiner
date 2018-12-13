@@ -7,7 +7,7 @@ import backoff
  
 @backoff.on_exception(backoff.expo,requests.exceptions.RequestException,max_time=120)
 def get_pmc_query(query,mark,pubmed=[]):
-    url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=gene_protein:"'+query+'"+and+LANG:eng+and+has_abstract:y&resultType=lite&synonym=TRUE&cursorMark='+mark+'&pageSize=1000&format=JSON'
+    url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=gene_protein:"'+query+'"+and+LANG:eng+and+organism:trypanosome+and+has_abstract:y&resultType=lite&synonym=TRUE&cursorMark='+mark+'&pageSize=1000&format=JSON'
     response = urllib.request.urlopen(url)
     data = response.read()      # a `bytes` object
     my_json = data.decode('utf8')

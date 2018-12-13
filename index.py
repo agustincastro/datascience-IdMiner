@@ -5,6 +5,7 @@ from dash.dependencies import Input, Output
 
 from app import app
 from src.components import dashboard
+from src.components import term_discovery
 
 # loads different apps on different urls
 
@@ -19,6 +20,8 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/':
         return dashboard.layout
+    elif pathname == '/termdiscovery':
+        return term_discovery.layout
     else:
         return '404'
 

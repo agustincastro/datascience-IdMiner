@@ -15,6 +15,8 @@ from app import app
 from src.components.header import headerComponent
 from src.components.term_table import termTable
 
+#Separar archivo en tres
+
 dfco = pd.read_csv("data/matrix.csv", sep=",", header=0, index_col=0)
 dfterms = pd.read_csv("data/term-info.csv", sep=",",
                       header=0, low_memory=False)
@@ -35,13 +37,14 @@ for index, row in dfco.iterrows():
 updated_edge_list = [x for x in edge_list if x[2] > 0]
 
 try:
-    query = dfterms[dfterms["Zip_Score"] < 1].sort_values(
+    query = dfterms[dfterms["Zipf_Score"] < 1].sort_values(
         "Articles", ascending=False).iloc[0]["Terms"]
 except:
     query = dfterms.sort_values("Articles", ascending=False).iloc[0]["Terms"]
 
-# network graph time!
+# network graph time
 G = nx.Graph()
+
 node_list = dfco.columns.tolist()
 
 G.add_weighted_edges_from(updated_edge_list)
@@ -103,7 +106,7 @@ def get_network(G, query):
         node_trace['y'] += tuple([y])
 
     annot = "IdMiner: Departamento de Genomica -IIBCE. " +\
-        "<a href='http://www.genomica.weebly.com'> [2]</a>"
+        "<a href='http://www.genomica.weebly.com'> [1]</a>"
 
     for node in H.nodes():
         if node != query:
@@ -122,7 +125,6 @@ def get_network(G, query):
                 showticklabels=False,
                 title=''
                 )
-    width = 1800
     height = 800
     pubmed = "".join(dfterms[dfterms.Terms == query].Publications.tolist())
     link = "<a href=" + \
@@ -141,7 +143,6 @@ def get_network(G, query):
                        plot_bgcolor='#EDEEF0',
                        showlegend=False,
                        autosize=True,
-                       width=width,
                        height=height,
                        xaxis=go.layout.XAxis(axis),
                        yaxis=go.layout.YAxis(axis),
@@ -217,7 +218,26 @@ layout = html.Div(children=[
             )
         ]
     ),
-    dcc.Graph(id='net_graph')
+        dcc.Graph(id='net_graph'),
+        dcc.Markdown('''#### Select Folder:'''),
+        dcc.Upload(
+            id="upload-data",
+            children=html.Div(
+                ["Drag and drop or click to select a file to upload."]
+            ),
+            style={
+                "width": "100%",
+                "height": "60px",
+                "lineHeight": "60px",
+                "borderWidth": "1px",
+                "borderStyle": "dashed",
+                "borderRadius": "5px",
+                "textAlign": "center",
+                "margin": "10px",
+            },
+            multiple=True,
+        )
+   
 ])
 
 

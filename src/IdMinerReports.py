@@ -79,3 +79,4 @@ def create_gene_artciles_dataframe(geneterms,run_name):
     dfgenesbyarticles["Terms"] = dfgenesbyarticles.index.tolist()
     dfgenesbyarticles.to_csv("Genes_publications-"+run_name+".csv",index=False,header=True,sep=",")
 
+#Crear un solo csv de los tres. 
