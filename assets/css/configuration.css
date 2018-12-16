@@ -1,0 +1,43 @@
+
+#configuration-form-container{
+    margin: 10px;
+    padding: 10px;
+    border: solid #E1E1E1 1px;
+}
+
+.flex-container{
+    display: flex
+}
+
+.dashed-file-upload {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px;
+}
+
+.file-upload-50{
+    width: 50%;
+}
+
+.button-50{
+    flex-grow: 1;
+    margin: 10px;
+    height: 60px;
+}
+
+#login-container-centered > hr{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.login-slider{
+    margin: auto;
+    margin-top: 30px;
+    width: 50% !important;
+    margin-bottom: 30px;
+}

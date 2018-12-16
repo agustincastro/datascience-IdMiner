@@ -219,25 +219,7 @@ layout = html.Div(children=[
         ]
     ),
         dcc.Graph(id='net_graph'),
-        dcc.Markdown('''#### Select Folder:'''),
-        dcc.Upload(
-            id="upload-data",
-            children=html.Div(
-                ["Drag and drop or click to select a file to upload."]
-            ),
-            style={
-                "width": "100%",
-                "height": "60px",
-                "lineHeight": "60px",
-                "borderWidth": "1px",
-                "borderStyle": "dashed",
-                "borderRadius": "5px",
-                "textAlign": "center",
-                "margin": "10px",
-            },
-            multiple=True,
-        )
-   
+        dcc.Markdown('''#### Select Folder:''')
 ])
 
 

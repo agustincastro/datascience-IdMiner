@@ -4,7 +4,7 @@ PAGE_SIZE = 10
 
 
 def termTable(pageSize, dfTerms):
-    
+
     col = dfTerms.columns[:-1]
 
     return dash_table.DataTable(
