@@ -25,38 +25,120 @@ dfgenesbyarticles = pd.read_csv(
 
 PAGE_SIZE = 10
 # add weights to edges
-edge_list = []
-for index, row in dfco.iterrows():
-    i = 0
-    for col in row:
-        weight = float(col)
-        edge_list.append((index, dfco.columns[i], weight))
-        i += 1
-
-# Remove edge if 0 interactions
-updated_edge_list = [x for x in edge_list if x[2] > 0]
-
-try:
-    query = dfterms[dfterms["Zipf_Score"] < 1].sort_values(
-        "Articles", ascending=False).iloc[0]["Terms"]
-except:
-    query = dfterms.sort_values("Articles", ascending=False).iloc[0]["Terms"]
-
-# network graph time
-G = nx.Graph()
-
-node_list = dfco.columns.tolist()
-
-G.add_weighted_edges_from(updated_edge_list)
 
 
-def get_network(G, query):
-    H = nx.Graph(((t, g, w) for t, g, w in G.edges(
-        data=True) if (g == query or t == query)))
+
+
+
+
+def create_network_articles_by_terms(query):
+    edge_list = [] #Lista vacia de futuros vertices (termino,gen,numero de articulos donde se menciona el termino y el gen) 
+    for index, row in dfco.iterrows():
+        i = 0
+        for col in row:
+            weight = float(col)
+            edge_list.append((index, dfco.columns[i], weight))
+            i += 1
+
+    # Remove edge if 0 interactions
+    updated_edge_list = [x for x in edge_list if x[2] > 0]
+
+
+
+def get_query(term_values,dfgenesbyarticles,union_intersection):
+    def get_union(genes,terms):
+        articles_in_genes = [[str(term[gene]).split(",") for term in terms]for gene in genes]
+        list_set = []
+        for articles_by_gene in articles_in_genes:
+            accumulated_list = set(articles_by_gene[0])
+            #print("\n",accumulated_list,set(articles_by_gene[1]))
+            for s in articles_by_gene[1:]:
+                accumulated_list.intersection_update(s)
+                list_set.append(accumulated_list)
+        results = [{gene:""} if (len(list_set[index]) == 0 or list_set[index] == {"nan"}) else {gene:",".join(list_set[index])} for index,gene in enumerate(genes)]
+        return results
+    def get_intersection():
+        return None
+    genes = dfgenesbyarticles.columns[:-1]
+    terms  = []
+    query = term_values
+    for term in query:
+        terms.append(dfgenesbyarticles[dfgenesbyarticles["Terms"] == term].iloc[0].to_dict())
+    if union_intersection == "UNION":
+        return get_union(genes,terms)
+    elif union_intersection  == "INTERSECTION":
+        pass
+    else:
+        raise ValueError("Undefined union_intersection")
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+# try:
+#     query = dfterms[dfterms["Zipf_Score"] < 1].sort_values(
+#         "Articles", ascending=False).iloc[0]["Terms"]
+# except:
+#     query = dfterms.sort_values("Articles", ascending=False).iloc[0]["Terms"]
+
+# query = [query]
+
+# # network graph time
+# G = nx.Graph()
+
+# node_list = dfco.columns.tolist()
+
+# G.add_weighted_edges_from(updated_edge_list)
+
+
+
+
+
+def get_network(G, query, union_intersection):
+    
+    def process_terms(query, union_intersection):
+        genes = dfgenesbyarticles.columns[:-1]
+        terms = []
+        dict_union_intersection = {}
+        if len(query)> 1:
+            for term in query:
+                terms.append(dfgenesbyarticles[dfgenesbyarticles["Terms"] == term].iloc[0].to_dict())
+            if(union_intersection == 'UNION'):
+                articles_in_genes = [[str(term[gene]).split(",") for term in terms]for gene in genes]
+                for articles_by_gene in articles_in_genes:
+                    accumulated_list = set(articles_by_gene[0])
+                    for s in articles_by_gene[1:]:
+                        accumulated_list.intersection_update(s) 
+            #    for term_index in range(len(terms)):
+            #        if(term)
+            #        accumulated_list.append(set(terms[term_index]).intersection(set(terms[term_index+1])))
+
+
+            elif(union_intersection == 'INTERSECTION'):
+                pass
+        else:
+            return query[0]            
+            
+
+
+
+    print(query)
+    H = nx.Graph(((term, gene, weight) for term, gene, weight in G.edges(data=True) if (gene == query[0] or term == query[0])))
+    print("el H es: " + str(H))
     # Set node color based in articles
     nodecolor = dict([(v, e["weight"]) if (u == query) else (
         u, e["weight"]) for u, v, e in H.edges(data=True)])
-    nodecolor[query] = 1
+    nodecolor[query[0]] = 1
     nodecolorscale = dict([(v, e["weight"]) if (u == query) else (
         u, e["weight"]) for u, v, e in H.edges(data=True)])
     nodecolorscale[query] = 1
@@ -189,38 +271,37 @@ def get_network(G, query):
     fig1['layout']['annotations'][0]['text'] = annot
     return fig1
 
-f1 = get_network
-layout = html.Div(children=[
-    headerComponent,
-    termTable(PAGE_SIZE, dfterms),
-    dcc.Markdown('''#### Select Query Term:'''),
 
-    html.Div(
-        id='term-dropdown-container',
-        children=[
-            dcc.Dropdown(
-                id='query-term-dropdown',
-                options=[
-                    {'label': i.title(), 'value': i} for i in sorted(dfterms.Terms.unique())
-                ],
-                multi=True,
-                value=query
-            ),
-            dcc.Dropdown(
-                id='union-intersection-dropdown',
-                options=[
-                    {'label': 'Union', 'value': 'UNION'},
-                    {'label': 'Intersection', 'value': 'INTERSECTION'}
-                ],
-                value='UNION',
-                searchable=False,
-                clearable=False
-            )
-        ]
-    ),
-        dcc.Graph(id='net_graph'),
-        dcc.Markdown('''#### Select Folder:''')
-])
+# layout = html.Div(children=[
+#     headerComponent,
+#     termTable(PAGE_SIZE, dfterms),
+#     dcc.Markdown('''#### Select Query Term:'''),
+
+#     html.Div(
+#         id='term-dropdown-container',
+#         children=[
+#             dcc.Dropdown(
+#                 id='query-term-dropdown',
+#                 options=[
+#                     {'label': i.title(), 'value': i} for i in sorted(dfterms.Terms.unique())
+#                 ],
+#                 multi=True,
+#                 value=query
+#             ),
+#             dcc.Dropdown(
+#                 id='union-intersection-dropdown',
+#                 options=[
+#                     {'label': 'Union', 'value': 'UNION'},
+#                     {'label': 'Intersection', 'value': 'INTERSECTION'}
+#                 ],
+#                 value='UNION',
+#                 searchable=False,
+#                 clearable=False
+#             )
+#         ]
+#     ),
+#         dcc.Graph(id='net_graph'),
+#         ])
 
 
 @app.callback(
@@ -263,6 +344,8 @@ def update_graph(pagination_settings, sorting_settings, filtering_settings):
     ].to_dict('rows')
 
 
-@app.callback(Output('net_graph', 'figure'), [Input('query-term-dropdown', 'value')])
-def load_graph(selected_dropdown_value):
-    return get_network(G, selected_dropdown_value)
+@app.callback(Output('net_graph', 'figure'), [Input('query-term-dropdown', 'value'), 
+Input('union-intersection-dropdown', 'value')])
+def load_graph(selected_dropdown_value, union_intersection):
+    return get_network(G, selected_dropdown_value, union_intersection)
+

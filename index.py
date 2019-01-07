@@ -20,7 +20,7 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/':
-        return configuration.layout
+        return dashboard.layout
     elif pathname == '/dashboard':
         return dashboard.layout
     elif pathname == '/termdiscovery':

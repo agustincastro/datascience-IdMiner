@@ -39,6 +39,16 @@ generateNewRun = html.Div(
                 )
             ]
         ),
+        html.Div(
+            children=[
+                    html.Label('Taxonomic Id:'),
+                    dcc.Input(
+                        placeholder='Enter a value...',
+                        type='int',
+                        value='50'
+                    )
+            ]
+        ),
         html.Label('Coverage %'),
         dcc.Slider(
             id='my-range-slider',
@@ -64,7 +74,12 @@ generateNewRun = html.Div(
                 0: '0',
                 100: '100'
             }
-        )
+        ),
+          html.Button(
+                    "Run",
+                    id="run-btn",
+                    
+                )
     ]
 )
 
