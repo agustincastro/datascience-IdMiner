@@ -230,7 +230,7 @@ def network_layout(query,dict_articles_by_gene):
             l=100,
             r=100,
             b=100,
-            t=200,
+            t=100,
         ),
         annotations=[
             dict(
@@ -298,6 +298,7 @@ layout = html.Div(children=[
             )
         ]
     ),
+        html.Hr(),
         dcc.Graph(id='net_graph'),
         ])
 
