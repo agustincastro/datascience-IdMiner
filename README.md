@@ -14,7 +14,9 @@ Activate the virtual environment
 
 `source ./vidminer/bin/activate`
 
-Install project requirements.
+Install project requirements (in some case you need to install wheels).
+
+`pip install wheel`
 
 `pip install -r requirements.txt`
 
