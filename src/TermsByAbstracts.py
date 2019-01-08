@@ -5,7 +5,7 @@ import requests
 from Bio import Entrez 
 from FetchArticles import generate_random_emails
 from HelperGrams import generate_stop_grams, get_keepterms
-from PMC_fetch import get_pmc_query
+
 
 def check_df_ids_by_gene(input_file):
     """ Control input file to be processed by IdMiner
@@ -39,12 +39,11 @@ def check_df_ids_by_gene(input_file):
         raise ValueError(mssg)
     return df 
 
-def gene_articles_dict(input_file,pmc=False):
+def gene_articles_dict(input_file):
     """ Take a tsv file of genes and pubmed ids and transform it into a dictionary.
     
     Arguments:
         input_file {[file]} -- tsv file containing gene ids and pubmed ids associated with it
-        pmc {[bool]} -- recover pubmedids via de pmc annotation API
         part {[string]} -- search in abstract or full-text body
     
     Returns:
@@ -56,11 +55,6 @@ def gene_articles_dict(input_file,pmc=False):
     for r in df.iterrows():
         gene = r[1].id
         pmids = str(r[1].article)
-        if pmc:
-            pmid_pmcid = ",".join(get_pmc_query(gene,"*",[]))
-            if pmid_pmcid != "":
-                pmids += "," + pmid_pmcid
-                pmids = ",".join(set(pmids.split(",")))
         genepmids[gene] = pmids
     return genepmids
 

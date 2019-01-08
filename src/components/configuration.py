@@ -1,6 +1,9 @@
 import dash_html_components as html
 import dash_core_components as dcc
 
+from src.components.header import headerComponent_configuration
+
+
 
 uploadOrLoadSample = html.Div(
     className='flex-container',
@@ -47,7 +50,12 @@ generateNewRun = html.Div(
                         type='int',
                         value='50'
                     )
-            ]
+            ],
+            style={
+                'marginBottom': 50,
+                'marginTop': 25,
+                'align':'center'
+                }
         ),
         html.Label('Coverage %'),
         dcc.Slider(
@@ -86,6 +94,8 @@ generateNewRun = html.Div(
 layout = html.Div(
     id='configuration-form-container',
     children=[
+        headerComponent_configuration,
+        html.Hr(),
         html.H2('Configuration'),
         html.Div(
             id='login-container-centered',

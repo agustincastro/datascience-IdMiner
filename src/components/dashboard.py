@@ -1,6 +1,8 @@
+import pandas as pd
+import itertools
+import math
 import dash
 import dash_table
-import pandas as pd
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
@@ -10,28 +12,18 @@ import plotly.graph_objs as go
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 import networkx as nx
 import heapq
-import math
 
 from app import app
-from src.components.header import headerComponent
+from src.components.header import headerComponent_dashboard
 from src.components.term_table import termTable
 
-#Separar archivo en tres
-
-# dfco = pd.read_csv("data/matrix.csv", sep=",", header=0, index_col=0)
-dfterms = pd.read_csv("data/term-info.csv", sep=",",
-                      header=0, low_memory=False)
-dfgenesbyarticles = pd.read_csv(
-    "data/Publications-by_gene.csv", sep=",", header=0, low_memory=False)
-
-PAGE_SIZE = 10
 
 def select_start_query(dfterms):
     try:
-        query = dfterms[dfterms["Zipf_Score"] < 1].sort_values(
-            "Articles", ascending=False).iloc[0]["Terms"]
+        query = dfterms[dfterms["ZIPF_Score"] < 1].sort_values(
+            "Genes", ascending=False).iloc[0]["Terms"]
     except:
-        query = dfterms.sort_values("Articles", ascending=False).iloc[0]["Terms"]
+        query = dfterms.sort_values("Genes", ascending=False).iloc[0]["Terms"]
     return [query]
 
 def get_edges(query,union_intersection_query_result):
@@ -52,7 +44,6 @@ def checknan(value):
         return False
 
 def get_query(term_values,dfgenesbyarticles,union_intersection):
-    
     def get_intersection(genes,terms):
         articles_in_genes = [[str(term[gene]).split(",") for term in terms]for gene in genes]
         list_set = []
@@ -62,7 +53,6 @@ def get_query(term_values,dfgenesbyarticles,union_intersection):
                 accumulated_list.intersection_update(s)
                 list_set.append(accumulated_list)
         return [{gene:",".join(list_set[index])} for index,gene in enumerate(genes) if (len(list_set[index])> 0 and list_set[index] != {"nan"})]
-    
     def get_union(genes,terms):
         dict_gene = {}
         for gene in genes:
@@ -79,7 +69,6 @@ def get_query(term_values,dfgenesbyarticles,union_intersection):
             if len(articles)> 0:
                 dict_gene[gene] = ",".join(set(",".join(articles).split(",")))
         return [{key:value} for key,value in dict_gene.items()]
-    
     genes = dfgenesbyarticles.columns[:-1]
     terms  = []
     query = term_values
@@ -184,7 +173,6 @@ def create_node_trace(network,query,edge_list):
 
 def create_name_trace(network,query,node_trace,dict_articles_by_gene):
     query_name = " - ".join(query)
-    pubmed = ",".join([",".join(value) for key,value in dict_articles_by_gene.items()])
     names_nodes = ["<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(",".join(dict_articles_by_gene[gene])) + 'style="color: #000000">' + gene + "</a>" if gene != query_name else "" for gene in list(network.nodes())]
     names_trace = go.Scatter(
     x=node_trace["x"],
@@ -204,7 +192,7 @@ def create_name_trace(network,query,node_trace,dict_articles_by_gene):
 
 def network_layout(query,dict_articles_by_gene):
     query_name = " - ".join(query)
-    pubmed = ",".join([",".join(value) for key,value in dict_articles_by_gene.items()]) # Todos los articulos relacionados al query, en un solo string.
+    pubmed = ",".join(set(itertools.chain.from_iterable([value for key,value in dict_articles_by_gene.items()]))) # Todos los articulos relacionados al )query, en un solo string. Hago el set para que elimine duplicados. Con itertools chains from iterable transofomro una lista de listas a una unica lista
     link = "<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(pubmed) + '>'+ query_name.upper()+'</a>' #Links a todos los articulos
     title = link + ": # Genes: " + str(len(dict_articles_by_gene)) + " ; # Articles: " + str(len(set(pubmed.split(",")))) #Titulo a mostrar
     axis = dict(showline=False,  # hide axis line, grid, ticklabels and  title
@@ -271,9 +259,24 @@ def create_network(query,dataframe_genes_by_articles,union_intersection):
 
 
 
+####main 
+
+# dfco = pd.read_csv("data/matrix.csv", sep=",", header=0, index_col=0)
+dfterms = pd.read_csv("data/Terms-Test_genes.csv", sep=",",
+                      header=0, low_memory=False)
+dfterms = dfterms.round(3)
+dfgenesbyarticles = pd.read_csv(
+    "data/Genes_publications-Test_genes.csv", sep=",", header=0, low_memory=False)
+
+PAGE_SIZE = 10
+
+
+
+
 layout = html.Div(children=[
-    headerComponent,
+    headerComponent_dashboard,
     termTable(PAGE_SIZE, dfterms),
+    html.Hr(),
     dcc.Markdown('''#### Select Query Term:'''),
     html.Div(
         id='term-dropdown-container',
@@ -346,7 +349,6 @@ def update_graph(pagination_settings, sorting_settings, filtering_settings):
 @app.callback(Output('net_graph', 'figure'), [Input('query-term-dropdown', 'value'), 
 Input('union-intersection-dropdown', 'value')])
 def load_graph(selected_dropdown_value, union_intersection):
-    print(selected_dropdown_value)
     if len(selected_dropdown_value) > 0: #Cuando no tengo seleccion no hago nada. Para evitar que se generen vacios.
         graph = create_network(selected_dropdown_value,dfgenesbyarticles,union_intersection)
         if graph:

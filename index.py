@@ -7,6 +7,7 @@ from app import app
 from src.components import dashboard
 from src.components import term_discovery
 from src.components import configuration
+from src.components import geneboard
 
 # loads different apps on different urls
 
@@ -21,12 +22,12 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/':
         return dashboard.layout
-    elif pathname == '/dashboard':
-        return dashboard.layout
-    elif pathname == '/termdiscovery':
-        return term_discovery.layout
+    elif pathname == '/configuration':
+        return configuration.layout
+    elif pathname == '/genes_relations':
+        return geneboard.layout
     else:
-        return '404'
+        return 'The page does not exist: 404 Error'
 
 
 if __name__ == '__main__':

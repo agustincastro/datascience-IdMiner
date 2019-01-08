@@ -33,7 +33,10 @@ def get_gene_term_dicts(genepmids,worddict,dictgram):
         termdict[term]["Genes"] = sum([1 for gene in geneterms[term] if geneterms[term][gene] != ""]) #Number of genes associated with the term 
         termdict[term]["Freq_Term"] = int(dictgram[term][0]) #Freq of term in corpus
         termdict[term]["ZIPF_Score"] =  zipf[term] #zipf score (general freq of the word)
-        termdict[term]["IDF_Score"] = round(idf[term],3) #idf score
+        idf_score =round(float(idf[term]),3)
+        if term=="growth":
+            print(idf_score)
+        termdict[term]["IDF_Score"] = idf_score #idf score
         termdict[term]["Publications"] = dictgram[term][2] # publications
     return  termdict,geneterms, geneNterms   
 

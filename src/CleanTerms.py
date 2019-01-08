@@ -42,7 +42,7 @@ def cleanwords(abstractdict):
         cleaned_words = [w for w in cleaned_words if w not in generate_stop_grams()] # remove common words 
         cleaned_words = [lemmatizer.lemmatize(l,pos="v") for l in cleaned_words] #transform to verb form
         cleaned_words = [lemmatizer.lemmatize(l) if l[-1] == "s" else l for l in cleaned_words] #try to remove plurals from not s ending words.
-        cleaned_words = [stemmer.stem(l) if (l.endswith("ing") or l.endswith("lly")) else l for l in cleaned_words] #Dealing with words ending in ing and lly because lemmatizer don work too good.
+        #cleaned_words = [stemmer.stem(l) if (l.endswith("ing") or l.endswith("lly")) else l for l in cleaned_words] #Dealing with words ending in ing and lly because lemmatizer don work too good.
         cleaned_words = [w for w in cleaned_words if (zipf_frequency(w, 'en') <= 3.4 or w in get_keepterms())] #keep word if zipf score is low (not frequent in english) or if it is in keep terms (words common in biology))
         cleaned_words = [w for w in cleaned_words if (len(w) > 2 and not w in generate_stop_grams())]
         worddict[article] = cleaned_words
