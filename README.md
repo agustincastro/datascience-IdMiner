@@ -8,11 +8,11 @@ Create a virtual environment called virtual_env unsing python 3 venv tool.
 
 `apt-get install python3-venv`
 
-`python3 -m venv virtual_env`
+`python3 -m venv vidminer`
 
 Activate the virtual environment
 
-`source ./virtual_env/bin/activate`
+`source ./vidminer/bin/activate`
 
 Install project requirements.
 
