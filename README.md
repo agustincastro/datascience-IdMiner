@@ -6,6 +6,8 @@ IdMiner for Term Discovery
 
 Create a virtual environment called virtual_env unsing python 3 venv tool.
 
+`apt-get install python3-venv`
+
 `python3 -m venv virtual_env`
 
 Activate the virtual environment
