@@ -279,7 +279,7 @@ PAGE_SIZE = 10
 
 
 dfgenesbyarticles = pd.read_csv(
-    "data/Publications-by_gene.csv", sep=",", header=0, low_memory=False)
+    "data/Genes_publications-Gymnotus_DE_genes_run.csv", sep=",", header=0, low_memory=False)
 
 article_by_gene,gene_common,gene_common_count = get_genes_relations(dfgenesbyarticles)
 

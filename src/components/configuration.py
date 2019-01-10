@@ -43,45 +43,75 @@ generateNewRun = html.Div(
             ]
         ),
         html.Div(
+            className='flex-container',
             children=[
-                    html.Label('Taxonomic Id:'),
+                    html.Label('Keep Terms:'),
+                    dcc.Textarea(
+                        rows = 10,
+                        id = 'list_keep_terms',
+                        placeholder='Enter (one by line) terms which are frequent in english but you want to keep. See please see documentation to know wich term are in this categroy',
+                        title='Optional field',
+                        style={'align':'center'},
+                        value='dominance\nsocial\nhead'
+                                ),
+                    html.Label('Remove Terms:'),
+                    dcc.Textarea(
+                        rows = 10,
+                        id = 'list_remove_terms',
+                        placeholder='Enter (one by line) terms which are frequent in english but you want to keep. See please see documentation to know wich term are in this categroy',
+                        title='Optional field',
+                        style={'align':'center'},
+                        value='human\nplant\ncancer'
+                                ),
+            ]
+        ),
+        html.Div(
+            children=[
+                    html.Label('Zip-f Score:'),
                     dcc.Input(
-                        placeholder='Enter a value...',
-                        type='int',
-                        value='50'
+                        placeholder='Enter a value between 0 and 8',
+                        max = 8,
+                        min = 0,
+                        multiple = False,
+                        size = 3,
+                        type = 'number',
+                        id = 'idf_score',
+                        style={'align':'center'},
+                        value=3.4
+                    ),
+                    html.Label('Max Number of Terms to Analyze:'),
+                    dcc.Input(
+                        placeholder='Enter a value between 0 and 10000',
+                        max = 10000,
+                        min = 0,
+                        multiple = False,
+                        size = 3,
+                        type = 'number',
+                        id = 'common_terms',
+                        style={'align':'rigth'},
+                        value=1000
                     )
             ],
-            style={
-                'marginBottom': 50,
-                'marginTop': 25,
-                'align':'center'
-                }
         ),
         html.Label('Coverage %'),
         dcc.Slider(
-            id='my-range-slider',
+            id='coverage-slider',
             className='login-slider',
             min=0,
             max=100,
-            step=1,
+            marks={i: f'{i}%' for i in range(0, 101, 10)},
             value=50,
-            marks={
-                0: '0',
-                100: '100'
-            }
+            updatemode='drag'
         ),
         html.Label('Identity %'),
         dcc.Slider(
-            id='my-range-slider',
+            id='identity-slider',
             className='login-slider',
             min=0,
             max=100,
-            step=1,
+            marks={i: f'{i}%' for i in range(0, 101, 10)},
             value=50,
-            marks={
-                0: '0',
-                100: '100'
-            }
+            updatemode='mouseup'
         ),
           html.Button(
                     "Run",

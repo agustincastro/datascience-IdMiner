@@ -262,11 +262,11 @@ def create_network(query,dataframe_genes_by_articles,union_intersection):
 ####main 
 
 # dfco = pd.read_csv("data/matrix.csv", sep=",", header=0, index_col=0)
-dfterms = pd.read_csv("data/Terms-Test_genes.csv", sep=",",
+dfterms = pd.read_csv("data/Terms-Gymnotus_DE_genes_run.csv", sep=",",
                       header=0, low_memory=False)
 dfterms = dfterms.round(3)
 dfgenesbyarticles = pd.read_csv(
-    "data/Genes_publications-Test_genes.csv", sep=",", header=0, low_memory=False)
+    "data/Genes_publications-Gymnotus_DE_genes_run.csv", sep=",", header=0, low_memory=False)
 
 PAGE_SIZE = 10
 
