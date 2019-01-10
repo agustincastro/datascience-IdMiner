@@ -6,13 +6,17 @@ IdMiner for Term Discovery
 
 Create a virtual environment called virtual_env unsing python 3 venv tool.
 
-`python3 -m venv virtual_env`
+`apt-get install python3-venv`
+
+`python3 -m venv vidminer`
 
 Activate the virtual environment
 
-`source ./virtual_env/bin/activate`
+`source ./vidminer/bin/activate`
 
-Install project requirements.
+Install project requirements (in some case you need to install wheels).
+
+`pip install wheel`
 
 `pip install -r requirements.txt`
 
