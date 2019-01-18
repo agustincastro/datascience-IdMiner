@@ -20,7 +20,8 @@ def termTable(pageSize, dfTerms):
         sorting_type='multi',
         sorting_settings=[],
         filtering='be',
-        filtering_settings='',    style_table={'overflowX': 'scroll'},
+        filtering_settings='',    
+        style_table={'overflowX': 'scroll'},
         style_header={
             'backgroundColor': '#91B9E5',
             'fontWeight': 'bold',
