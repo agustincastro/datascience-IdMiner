@@ -27,11 +27,11 @@ def display_page(pathname):
         return dashboard.layout
     elif pathname == '/configuration':
         return configuration.layout
-    elif pathname == '/genes_relations':
+    elif pathname == '/geneboard':
         return geneboard.layout
     else:
         return 'The page does not exist: 404 Error'
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
