@@ -19,7 +19,7 @@ uploadOrLoadSample = html.Div(
 
 generateNewRun = html.Div(
     children=[
-        html.H4('Generate new run'),
+        html.H4('Analyze your genes:', className='configuration-subsection'),
         html.Div(
             className='flex-container',
             children=[
@@ -40,55 +40,69 @@ generateNewRun = html.Div(
             ]
         ),
         html.Div(
-            className='flex-container',
+            className='flex-container term-edition-container',
             children=[
-                    html.Label('Keep Terms:'),
-                    dcc.Textarea(
-                        rows = 10,
-                        id = 'list_keep_terms',
-                        placeholder='Enter (one by line) terms which are frequent in english but you want to keep. See please see documentation to know wich term are in this categroy',
-                        title='Optional field',
-                        style={'align':'center'},
-                        value='dominance\nsocial\nhead'
+                html.Div(
+                    children=[
+                        html.Div(
+                            children=[
+                                html.Label('Keep Terms:'),
+                                dcc.Textarea(
+                                    rows=10,
+                                    id='list_keep_terms',
+                                    placeholder='Enter (one by line) terms which are frequent in english but you want to keep. See please see documentation to know wich term are in this categroy',
+                                    title='Optional field',
+                                    style={'align': 'center'},
+                                    value='dominance\nsocial\nhead'
+                                )
+                            ]
+                        ),
+
+                        html.Div(
+                            children=[
+                                html.Label('Remove Terms:'),
+                                dcc.Textarea(
+                                    rows=10,
+                                    id='list_remove_terms',
+                                    placeholder='Enter (one by line) terms which are frequent in english but you want to keep. See please see documentation to know wich term are in this categroy',
+                                    title='Optional field',
+                                    style={'align': 'center'},
+                                    value='human\nplant\ncancer'
                                 ),
-                    html.Label('Remove Terms:'),
-                    dcc.Textarea(
-                        rows = 10,
-                        id = 'list_remove_terms',
-                        placeholder='Enter (one by line) terms which are frequent in english but you want to keep. See please see documentation to know wich term are in this categroy',
-                        title='Optional field',
-                        style={'align':'center'},
-                        value='human\nplant\ncancer'
-                                ),
+                            ]
+                        ),
+                    ]
+                )
             ]
         ),
         html.Div(
             children=[
-                    html.Label('Zip-f Score:'),
-                    dcc.Input(
-                        placeholder='Enter a value between 0 and 8',
-                        max = 8,
-                        min = 0,
-                        multiple = False,
-                        size = 3,
-                        type = 'number',
-                        id = 'idf_score',
-                        style={'align':'center'},
-                        value=3.4
-                    ),
-                    html.Label('Max Number of Terms to Analyze:'),
-                    dcc.Input(
-                        placeholder='Enter a value between 0 and 10000',
-                        max = 10000,
-                        min = 0,
-                        multiple = False,
-                        size = 3,
-                        type = 'number',
-                        id = 'common_terms',
-                        style={'align':'rigth'},
-                        value=1000
-                    )
+                html.Label('Zip-f Score:'),
+                dcc.Input(
+                    placeholder='Enter a value between 0 and 8',
+                    max=8,
+                    min=0,
+                    multiple=False,
+                    size=3,
+                    type='number',
+                    id='idf_score',
+                    style={'align': 'center'},
+                    value=3.4
+                ),
+                html.Label('Max Number of Terms to Analyze:'),
+                dcc.Input(
+                    placeholder='Enter a value between 0 and 10000',
+                    max=10000,
+                    min=0,
+                    multiple=False,
+                    size=3,
+                    type='number',
+                    id='common_terms',
+                    style={'align': 'rigth'},
+                    value=1000
+                )
             ],
+            className='term-edition-container'
         ),
         html.Label('Coverage %'),
         dcc.Slider(
@@ -110,11 +124,11 @@ generateNewRun = html.Div(
             value=50,
             updatemode='mouseup'
         ),
-          html.Button(
-                    "Run",
-                    id="run-btn",
-                    
-                )
+        html.Button(
+            "Run",
+            id="run-btn",
+
+        )
     ]
 )
 
@@ -123,10 +137,13 @@ layout = html.Div(
     children=[
         headerComponent_configuration,
         html.Hr(),
-        html.H2('Configuration'),
+        html.H2('Configuration', id='configuration-header'),
         html.Div(
             id='login-container-centered',
             children=[
+                html.Hr(),
+                html.H4('Load previous results:',
+                        className='configuration-subsection'),
                 uploadOrLoadSample,
                 html.Hr(),
                 generateNewRun
