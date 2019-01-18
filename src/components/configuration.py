@@ -1,9 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
-
 from src.components.header import headerComponent_configuration
-
-
 
 uploadOrLoadSample = html.Div(
     className='flex-container',
