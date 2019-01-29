@@ -174,7 +174,7 @@ def create_node_trace(network,query,edge_list):
 
 def create_name_trace(network,query,node_trace,dict_articles_by_gene):
     query_name = " - ".join(query)
-    names_nodes = ["<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(",".join(dict_articles_by_gene[gene])) + 'style="color: #000000">' + gene + "</a>" if gene != query_name else "" for gene in list(network.nodes())]
+    names_nodes = ["<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(",".join(dict_articles_by_gene[gene]).replace(".0","")) + 'style="color: #000000">' + gene + "</a>" if gene != query_name else "" for gene in list(network.nodes())]
     names_trace = go.Scatter(
     x=node_trace["x"],
     y=node_trace["y"],
@@ -193,7 +193,7 @@ def create_name_trace(network,query,node_trace,dict_articles_by_gene):
 
 def network_layout(query,dict_articles_by_gene):
     query_name = " - ".join(query)
-    pubmed = ",".join(set(itertools.chain.from_iterable([value for key,value in dict_articles_by_gene.items()]))) # Todos los articulos relacionados al )query, en un solo string. Hago el set para que elimine duplicados. Con itertools chains from iterable transofomro una lista de listas a una unica lista
+    pubmed = ",".join(set(itertools.chain.from_iterable([value for key,value in dict_articles_by_gene.items()]))).replace(".0","") # Todos los articulos relacionados al )query, en un solo string. Hago el set para que elimine duplicados. Con itertools chains from iterable transofomro una lista de listas a una unica lista
     link = "<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(pubmed) + '>'+ query_name.upper()+'</a>' #Links a todos los articulos
     title = link + ": # Genes: " + str(len(dict_articles_by_gene)) + " ; # Articles: " + str(len(set(pubmed.split(",")))) #Titulo a mostrar
     axis = dict(showline=False,  # hide axis line, grid, ticklabels and  title
@@ -268,10 +268,10 @@ def get_terms_df(contents, filename, date):
         if 'csv' in filename:
             # Assume that the user uploaded a CSV file
             dfterms = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')))
+                io.StringIO(decoded.decode('utf-8')),low_memory=False)
         elif 'xls' in filename:
             # Assume that the user uploaded an excel file
-            dfterms = pd.read_excel(io.BytesIO(decoded))
+            dfterms = pd.read_excel(io.BytesIO(decoded),low_memory=False)
         return dfterms
     except Exception as e:
         print(e,filename,"no correct format")

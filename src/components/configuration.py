@@ -182,9 +182,12 @@ generateNewRun = html.Div(
             className="container4",
             children = [
             html.Button(
-                "GO!",
+                "RUN!",
                 id="run-btn",
-                title="Please see the wheel spinning at the bottom of the of the page.\n When the run is complete, you would see an status message in the left corner of your screen"
+                title="""
+                Please see the wheel spinning at the bottom of the of the page.
+                When the run is complete, you would see an status message in the left corner of your screen
+                """
             )
             ]
         )

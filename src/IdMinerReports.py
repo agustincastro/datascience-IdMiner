@@ -34,8 +34,6 @@ def get_gene_term_dicts(genepmids,worddict,dictgram):
         termdict[term]["Freq_Term"] = int(dictgram[term][0]) #Freq of term in corpus
         termdict[term]["ZIPF_Score"] =  zipf[term] #zipf score (general freq of the word)
         idf_score =round(float(idf[term]),3)
-        if term=="growth":
-            print(idf_score)
         termdict[term]["IDF_Score"] = idf_score #idf score
         termdict[term]["Publications"] = dictgram[term][2] # publications
     return  termdict,geneterms, geneNterms   
@@ -67,7 +65,7 @@ def create_terms_info_dataframe(termdict,run_name):
 
     dfterms = pd.DataFrame(termdict).T #transpose
     dfterms["Terms"] = dfterms.index.tolist() #index to column name
-    dfterms = dfterms[["Terms","Genes","ZIPF_Score","IDF_Score","Articles","Freq_Term","Publications"]] #change order
+    dfterms = dfterms[["Terms","Genes","ZIPF_Score","Articles","Freq_Term","Publications"]] #change order
     dfterms.to_csv(run_name+"_IDMiner-Terms.csv",index=False,header=True,sep=",") # to csv
 
 def create_gene_artciles_dataframe(geneterms,run_name):

@@ -173,7 +173,7 @@ def create_gene_name_trace(network,query_gene,node_trace,gene_common):
         [dict] -- [names_nodes: diccionario que contiene la informacion del nombre de los nodos y articulos que se asocian a cada nodo(gen)]
     """
 
-    names_nodes = ["<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(",".join(gene_common[query_gene][gene])) + 'style="color: #000000">' + gene + "</a>" if gene != query_gene else "" for gene in list(network.nodes())] #Determino el nombre de los nodos. El nombre de los nodos esta compuesto por el nombre del gene subject y contiene un link a los articulos que tiene en comun con el gene-query.
+    names_nodes = ["<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(",".join(gene_common[query_gene][gene]).replace(".0","")) + 'style="color: #000000">' + gene + "</a>" if gene != query_gene else "" for gene in list(network.nodes())] #Determino el nombre de los nodos. El nombre de los nodos esta compuesto por el nombre del gene subject y contiene un link a los articulos que tiene en comun con el gene-query.
     names_trace = go.Scatter( #creo un objeto scatter
     x=node_trace["x"], #defino la posicion de los nombres en el lugar donde previamente determino los nodos (node_trace)
     y=node_trace["y"], #defino la posicion de los nombres en el lugar donde previamente determino los nodos (node_trace)
@@ -200,7 +200,7 @@ def gene_network_layout(query_gene,gene_common,articles_by_gene):
         [type] -- [description]
     """
 
-    pubmed = ",".join(article_by_gene[query_gene])  # Todos los articulos relacionados al query, en un solo string. Hago el set para que elimine duplicados. Con itertools chains from iterable transofomro una lista de listas a una unica lista
+    pubmed = ",".join(article_by_gene[query_gene]).replace(".0","")  # Todos los articulos relacionados al query, en un solo string. Hago el set para que elimine duplicados. Con itertools chains from iterable transofomro una lista de listas a una unica lista
     link = "<a href=" + "'https://www.ncbi.nlm.nih.gov/pubmed/{0}'".format(pubmed) + '>'+ query_gene +'</a>' #Links a todos los articulos
     title = link + ": # Genes: " + str(len(gene_common[query_gene]))  + "; # Articles: " + str(len(article_by_gene[query_gene])) #Determino titulo
     axis = dict(showline=False,  # hide axis line, grid, ticklabels and  title

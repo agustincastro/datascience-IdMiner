@@ -8,6 +8,14 @@ import string
 import logging
 
 
+# Download nltk data
+
+nltk.download("wordnet")
+
+nltk.download("punkt")
+
+nltk.download("stopwords")
+
 def get_words(abstractdict):
     """ Tokenization of articles abstracts. Breaking up sequences of strings into pieces (words/terms). For each abstract remove punctuation and transform to lower case. 
     
