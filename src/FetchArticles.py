@@ -14,7 +14,7 @@ import logging
 # The keyword argument max_time specifies the maximum amount of total time in seconds that can elapse before giving up.
 
 
-def get_genes_ids_from_file(file_input):
+def get_genes_ids_from_text(file_input):
     """From txt file obtain gene ids
     
     Arguments:
@@ -23,11 +23,10 @@ def get_genes_ids_from_file(file_input):
     Returns:
         [list] -- List of genes identificators
     """
-
-    return open(file_input,"r").read().split("\n")
+    return [gene.strip() for gene in file_input.read().split("\n") if len(gene.strip()) >= 1]
 
 @backoff.on_exception(backoff.expo,requests.exceptions.RequestException,max_time=120)
-def get_text_from_gene(gene):
+def get_text_from_text(gene):
     '''This function obtains a list of articles associated with the query gene. Use the PaperBLAST API in order to obtain for the query gene (and their homologues) the list of articles where they are mentioned.
     
     Arguments:
@@ -218,17 +217,17 @@ def check_format(input_file,format_file):
         if not genes:
             raise ValueError("There was an error with your fasta file. Please check if it is a valid format")
     else:
-        genes = get_genes_ids_from_file(input_file)
+        genes = get_genes_ids_from_text(input_file)
+        print(genes,"_-----")
         if not genes:
             logging.error("There was an error with your txt file. Please check if it is a valid format. Remember genes id must be separeted by new lines")
             raise ValueError("There was an error with your txt file. Please check if it is a valid format. Remember genes id must be separeted by new lines")
     return genes
 
-def ids_by_gene(run_name,input_file,format_file,pcov=30,pident=30):
+def ids_by_gene(input_file,format_file,pcov=30,pident=30):
     """ Create a table (tsv format) of genes and their associated articles
     
     Arguments:
-        run_name {[string]} -- Run name for output files
         input_file {[file]} -- Input file in either fasat or text format
         format_file {[string]} -- Format of input file, either fasta or text.
     
@@ -239,14 +238,15 @@ def ids_by_gene(run_name,input_file,format_file,pcov=30,pident=30):
     Raises:
         ValueError -- Rise an error if there was not results.
     """
-
+    print("--------")
     articles = []
     genes = check_format(input_file,format_file) #Check format and return genes name (and if fasta sequence)
+    print(genes)
     for gene in genes:
         if format_file == "fasta":
             xml_list = get_text_from_fasta(gene,genes[gene]) # get blastpaper result
         else:
-            xml_list = get_text_from_gene(gene) # get blastpaper result
+            xml_list = get_text_from_text(gene) # get blastpaper result
         if not xml_list: #If an error occurred in PaperBLAST skip gene.
             continue
         hits = get_info_hit(xml_list,pcov,pident) #obtain hit information
@@ -257,8 +257,9 @@ def ids_by_gene(run_name,input_file,format_file,pcov=30,pident=30):
     if articles == []: #If ther was not results. Error
         logging.error("There was non results on your search")
         raise ValueError("There was non results on your search")
-    dfarticles = pd.DataFrame(articles,columns=["id","article"])
-    dfarticles.to_csv(run_name + ".tsv",sep="\t",header=True,index=False)
+    return articles
+    # dfarticles = pd.DataFrame(articles,columns=["id","article"])
+    # dfarticles.to_csv(run_name + ".tsv",sep="\t",header=True,index=False)
 
 
 

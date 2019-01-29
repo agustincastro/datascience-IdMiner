@@ -6,6 +6,9 @@
 }
 
 .header-subtext{
+    margin: 10px;
+    padding-bottom: 2em;
+    border: solid black 1px;
     text-align: justify;
     padding: 0 2em 0 1em;
     top: 0px;
@@ -24,8 +27,13 @@
 
 .configuration-subsection{
     margin-left: 10px;
-    font-family: sans-serif;
-    font-weight: 500;
+    font-family: inherit;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 36px;
+    padding-top: 19px;
+    font-size: xx-large;
+    color: darkred;
 }
 
 .term-edition-container{

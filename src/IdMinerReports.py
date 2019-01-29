@@ -1,7 +1,7 @@
 from collections import defaultdict
 import pandas as pd
-from IdfZipfScore import *
-from TermsByAbstracts import check_df_ids_by_gene, gene_articles_dict
+from src.IdfZipfScore import *
+from src.TermsByAbstracts import check_df_ids_by_gene, gene_articles_dict
 
 
 def get_gene_term_dicts(genepmids,worddict,dictgram):
@@ -68,7 +68,7 @@ def create_terms_info_dataframe(termdict,run_name):
     dfterms = pd.DataFrame(termdict).T #transpose
     dfterms["Terms"] = dfterms.index.tolist() #index to column name
     dfterms = dfterms[["Terms","Genes","ZIPF_Score","IDF_Score","Articles","Freq_Term","Publications"]] #change order
-    dfterms.to_csv("Terms-"+run_name+".csv",index=False,header=True,sep=",") # to csv
+    dfterms.to_csv(run_name+"_IDMiner-Terms.csv",index=False,header=True,sep=",") # to csv
 
 def create_gene_artciles_dataframe(geneterms,run_name):
     """ Create a datframe of genes and terms. Each term has articles associated with each gene.
@@ -80,7 +80,7 @@ def create_gene_artciles_dataframe(geneterms,run_name):
 
     dfgenesbyarticles =pd.DataFrame(geneterms).T
     dfgenesbyarticles["Terms"] = dfgenesbyarticles.index.tolist()
-    dfgenesbyarticles.to_csv("Genes_publications-"+run_name+".csv",index=False,header=True,sep=",")
+    dfgenesbyarticles.to_csv(run_name+"_IDMiner-Genes.csv",index=False,header=True,sep=",")
 
 #Crear un solo csv de los tres. 
 

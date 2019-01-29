@@ -24,9 +24,9 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/':
-        return dashboard.layout
-    elif pathname == '/configuration':
         return configuration.layout
+    elif pathname == '/dashboard':
+        return dashboard.layout
     elif pathname == '/geneboard':
         return geneboard.layout
     else:
@@ -34,4 +34,4 @@ def display_page(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)

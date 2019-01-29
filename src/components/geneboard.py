@@ -1,5 +1,8 @@
 #GeneBoard. In common-gene 2 gene. 
-
+import base64
+import datetime
+import io
+import os 
 import pandas as pd 
 import itertools
 from collections import defaultdict
@@ -8,20 +11,19 @@ import networkx as nx
 import plotly.graph_objs as go
 import dash
 import dash_table
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 
 from app import app
 from src.components.header import headerComponent_geneboard
-from src.components.term_table import geneTable
 
 
-def get_genes_relations(dfgenesbyarticles):
+def get_genes_relations(dfgenes):
     """ Esta funcion busca obtener a partir de la table de articulos por termino por genes, la cantidad de articulos asociados a un gen particular, y la cantidad de articulos comunes entre los genes.
     
     Arguments:
-        dfgenesbyarticles {[dataframe]} -- dfgenesbyarticles: es un dataframe resultado de la corrida de IDMINER.
+        dfgenes {[dataframe]} -- dfgenes: es un dataframe resultado de la corrida de IDMINER.
     
     Returns:
         [dict] -- [article_by_gene: diccionario donde el key es el gen y el value es la lista de articulos relacionados al gen]
@@ -29,10 +31,10 @@ def get_genes_relations(dfgenesbyarticles):
         [dict] -- [gene_common_count: diccionario donde el key es el gen y el value es la lista de diccionario donde los key son los genes (distintos al primero) y los values son la cantidad de articulos que tienen los genes en comun]
     """
 
-    genes = dfgenesbyarticles.columns[0:-1]
+    genes = dfgenes.columns[0:-1]
     article_by_gene = {}
     for gene in genes:
-        article_by_gene[gene] = list(set(itertools.chain.from_iterable(dfgenesbyarticles[gene].dropna().astype(str).str.split(",").tolist())))
+        article_by_gene[gene] = list(set(itertools.chain.from_iterable(dfgenes[gene].dropna().astype(str).str.split(",").tolist())))
 
     gene_common = defaultdict(dict)
     gene_common_count = defaultdict(dict)
@@ -273,43 +275,146 @@ def create_gene_network(query_gene,article_by_gene,gene_common,gene_common_count
     fig['layout']['annotations'][0]['text'] = annot
     return fig
 
-#MAIN
 
-PAGE_SIZE = 10
+def get_genes_df(contents, filename, date):
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string)
+    global df_genes_relation
+    global start_gene_query
+    global article_by_gene
+    global gene_common
+    global gene_common_count
+    global dfgenes
+    try:
+         #La seteo global porque como es una varaible que voy a necesitar no hay problemas.
+        if 'csv' in filename:
+            # Assume that the user uploaded a CSV file
+            dfgenes = pd.read_csv(
+                io.StringIO(decoded.decode('utf-8')))
+        elif 'xls' in filename:
+            # Assume that the user uploaded an excel file
+            dfgenes = pd.read_excel(io.BytesIO(decoded))
+        article_by_gene,gene_common,gene_common_count = get_genes_relations(dfgenes)
+        df_genes_relation, start_gene_query = generate_dataframe(article_by_gene,gene_common_count)
+        return None
+    except Exception as e:
+        print(e,filename,"no correct format")
 
 
-dfgenesbyarticles = pd.read_csv(
-    "data/Genes_publications-Gymnotus_DE_genes_run.csv", sep=",", header=0, low_memory=False)
 
-article_by_gene,gene_common,gene_common_count = get_genes_relations(dfgenesbyarticles)
-
-df_genes_relation, start_query = generate_dataframe(article_by_gene,gene_common_count)
-
-
-
-layout = html.Div(children=[
-    headerComponent_geneboard,
-    geneTable(PAGE_SIZE, df_genes_relation),
-    html.Hr(),
-    dcc.Markdown('''#### Select Gene:'''),
-    html.Div(
-        id='gene-dropdown-container',
-        children=[
-            dcc.Dropdown(
-                id='query-gene-dropdown',
-                options=[
-                    {'label': i.title(), 'value': i} for i in sorted(dfgenesbyarticles.columns[:-1])
-                ],
-                multi=False,
-                value=start_query #Start query value
-            )
-        ]
-    ),
+def parse_contents(df_genes_realtion):
+    try:
+        col = df_genes_realtion.columns
+        return html.Div(children=[
+            html.Hr(),
+            dash_table.DataTable(
+                id='gene_table-sorting-filtering',
+                columns=[{"name": i, "id": i, 'deletable': True}
+                        for i in df_genes_realtion[col].columns],
+                pagination_settings={
+                    'current_page': 0,
+                    'page_size': 10
+                },
+                pagination_mode='be',
+                sorting='be',
+                sorting_type='multi',
+                sorting_settings=[],
+                filtering='be',
+                filtering_settings='',
+                style_table={'overflowX': 'scroll'},
+                style_header={
+                    'backgroundColor': '#91B9E5',
+                    'minWidth': '0px', 'maxWidth': '800px',
+                    'fontWeight': 'bold',
+                    'font-family': 'inherit',
+                    'textAlign': 'center',
+                    'padding-right': '20px',
+                    'padding-left': '20px',
+                    'font-size': '15'
+                },
+                style_cell={
+                    'backgroundColor': '#FAFAFA',
+                    'minWidth': '0px', 'maxWidth': '800px',
+                    'whiteSpace': 'no-wrap',
+                    'overflow': 'hidden',
+                    'textAlign': 'center',
+                    'font-size': '15'
+                }
+            ),
+            html.Hr(),
+            dcc.Markdown('''#### Select Gene:'''),
+            html.Div(
+                id='gene-dropdown-container',
+                children=[
+                    dcc.Dropdown(
+                        id='query-gene-dropdown',
+                        options=[
+                            {'label': i.title(), 'value': i} for i in sorted(dfgenes.columns[:-1])
+                        ],
+                        multi=False,
+                        value=start_gene_query #Start query value
+                    )
+                ]
+            ),
         html.Hr(),
-        dcc.Graph(id='gene_net_graph'),
+        dcc.Graph(id='gene_net_graph')
+        ]
+        )
+    except Exception as e:
+        print(e)
+        return html.Div([
+            'There was an error processing this file.'
         ])
 
 
+
+
+
+#MAIN
+
+
+
+uploadOrLoadSample = html.Div(
+    className='flex-container',
+    children=[
+        dcc.Upload(
+            id="upload-gene-data",
+            className='dashed-file-upload',
+            children=html.Div(
+                ['Drag and Drop or ',html.A('Select Files')]
+            )),
+        html.Div(id='output-gene-data-upload')
+    ]
+)
+
+
+layout = html.Div(
+    children=[
+        headerComponent_geneboard,
+        html.Div(
+            id="configuration-form-container",
+        children=[
+            html.H4('EXPLORING GENES',className='configuration-subsection'),
+            uploadOrLoadSample,
+            html.Div(id='output-gene-data-upload')
+        ]
+    )
+    ]
+)
+
+
+@app.callback(Output('output-gene-data-upload', 'children'),
+              [Input('upload-gene-data', 'contents')],
+              [State('upload-gene-data', 'filename'),
+               State('upload-gene-data', 'last_modified')])
+def update_output(file_content, file_name, file_date):
+    if file_content is not None:
+        if file_name.split("_")[-1] == "IDMiner-Genes.csv":
+            get_genes_df(file_content, file_name, file_date)
+            children = [parse_contents(df_genes_relation)]
+        else:
+             return html.Div(['There was an error processing this file. You need to upload this file, (yourname_IDMiner-Genes.csv)'])
+        return children
 
 
 @app.callback(

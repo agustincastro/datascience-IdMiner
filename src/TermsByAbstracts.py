@@ -3,11 +3,11 @@ import backoff
 import logging
 import requests
 from Bio import Entrez 
-from FetchArticles import generate_random_emails
-from HelperGrams import generate_stop_grams, get_keepterms
+from src.FetchArticles import generate_random_emails
+from src.HelperGrams import generate_stop_grams, get_keepterms
 
 
-def check_df_ids_by_gene(input_file):
+def check_df_ids_by_gene(articles):
     """ Control input file to be processed by IdMiner
     
     Arguments:
@@ -22,24 +22,25 @@ def check_df_ids_by_gene(input_file):
         [dataframe] -- Panda dataframe (tsv format). Two columns [genes, pubmed ids]
     """
 
-    try:
-        df = pd.read_csv(input_file,sep="\t",header=0)
-        df.dropna(inplace=True) # Remove empty genes
-    except FileNotFoundError:
-        mssg = "There was not file named %s" %(input_file)
-        logging.error(mssg)
-        raise FileNotFoundError(mssg)
-    if len(df.columns) != 2:
-        mssg = "%s has wrong number of columns. Must have to be named (%s - %s), and must be tsv format. Your %s has %i column's" % (input_file,"id","article",input_file,len(df.columns))
-        logging.error(mssg)
-        raise ValueError(mssg)
-    elif df.columns[0] != "id" or  df.columns[1] != "article":
-        mssg = "%s has wrong name of columns. Must have to named (%s - %s), and must be tsv format." % (input_file,"id","article")
-        logging.error(mssg)
-        raise ValueError(mssg)
+    # try:
+    #     df = pd.read_csv(input_file,sep="\t",header=0)
+    #     df.dropna(inplace=True) # Remove empty genes
+    # except FileNotFoundError:
+    #     mssg = "There was not file named %s" %(input_file)
+    #     logging.error(mssg)
+    #     raise FileNotFoundError(mssg)
+    df = pd.DataFrame(articles,columns=["id","article"])
+    # if len(df.columns) != 2:
+    #     mssg = "%s has wrong number of columns. Must have to be named (%s - %s), and must be tsv format. Your %s has %i column's" % (input_file,"id","article",input_file,len(df.columns))
+    #     logging.error(mssg)
+    #     raise ValueError(mssg)
+    # elif df.columns[0] != "id" or  df.columns[1] != "article":
+    #     mssg = "%s has wrong name of columns. Must have to named (%s - %s), and must be tsv format." % (input_file,"id","article")
+    #     logging.error(mssg)
+    #     raise ValueError(mssg)
     return df 
 
-def gene_articles_dict(input_file):
+def gene_articles_dict(articles):
     """ Take a tsv file of genes and pubmed ids and transform it into a dictionary.
     
     Arguments:
@@ -50,7 +51,7 @@ def gene_articles_dict(input_file):
         [dict] -- Dictionary of {genes id: pubmed ids}
     """
 
-    df = check_df_ids_by_gene(input_file)
+    df = check_df_ids_by_gene(articles)
     genepmids = {}
     for r in df.iterrows():
         gene = r[1].id

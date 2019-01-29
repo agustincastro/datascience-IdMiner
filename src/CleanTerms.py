@@ -1,4 +1,4 @@
-from HelperGrams import generate_stop_grams, get_keepterms, nltk
+from src.HelperGrams import generate_stop_grams, get_keepterms, nltk
 from nltk.stem.snowball import SnowballStemmer
 from nltk import FreqDist
 import itertools
@@ -25,7 +25,7 @@ def get_words(abstractdict):
         worddict[article] = ([*map(str.lower, nltk.word_tokenize(abstractdict[article].translate(table)))]) #Tokenization and pre-processing
     return worddict
 
-def cleanwords(abstractdict):
+def cleanwords(abstractdict,keep,remove,zipf):
     """ Transform the list of word of each articles into a cleaned list (words without common terms, and trying to reduce the amount of words via lemmatization and stemmatization)
     
     Arguments:
@@ -34,17 +34,21 @@ def cleanwords(abstractdict):
     Returns:
         [dict] --Dictionary of articles, where the key is the pubmed id and the value is a list of cleaned (remove common words, stemm, lemma, etc.) tokens 
     """
+    stopgrams = generate_stop_grams()
+    stopgrams += remove
+    keepgrams = get_keepterms()
+    keepgrams += keep
     worddict = get_words(abstractdict)
     stemmer = SnowballStemmer("english") #stemmer  
     lemmatizer = nltk.stem.WordNetLemmatizer() #lemmatizer
     for article in worddict.keys():
         cleaned_words = [w for w in worddict[article] if (len(w) > 2 and not w[0].isdigit() and not w[-1] == "-")] # remove tokens if len < 3, start with a number or end with -.
-        cleaned_words = [w for w in cleaned_words if w not in generate_stop_grams()] # remove common words 
+        cleaned_words = [w for w in cleaned_words if w not in stopgrams] # remove common words 
         cleaned_words = [lemmatizer.lemmatize(l,pos="v") for l in cleaned_words] #transform to verb form
         cleaned_words = [lemmatizer.lemmatize(l) if l[-1] == "s" else l for l in cleaned_words] #try to remove plurals from not s ending words.
         #cleaned_words = [stemmer.stem(l) if (l.endswith("ing") or l.endswith("lly")) else l for l in cleaned_words] #Dealing with words ending in ing and lly because lemmatizer don work too good.
-        cleaned_words = [w for w in cleaned_words if (zipf_frequency(w, 'en') <= 3.4 or w in get_keepterms())] #keep word if zipf score is low (not frequent in english) or if it is in keep terms (words common in biology))
-        cleaned_words = [w for w in cleaned_words if (len(w) > 2 and not w in generate_stop_grams())]
+        cleaned_words = [w for w in cleaned_words if (zipf_frequency(w, 'en') <= zipf or w in keepgrams)] #keep word if zipf score is low (not frequent in english) or if it is in keep terms (words common in biology))
+        cleaned_words = [w for w in cleaned_words if (len(w) > 2 and not w in stopgrams)]
         worddict[article] = cleaned_words
     return worddict
 

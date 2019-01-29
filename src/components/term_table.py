@@ -6,7 +6,7 @@ PAGE_SIZE = 10
 def termTable(pageSize, dfTerms):
 
     col = dfTerms.columns[:-1]
-
+    print(col)
     return dash_table.DataTable(
         id='table-sorting-filtering',
         columns=[{"name": i, "id": i, 'deletable': True}

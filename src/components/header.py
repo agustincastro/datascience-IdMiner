@@ -1,164 +1,99 @@
 import dash_html_components as html
 import dash_core_components as dcc
 
+
+
+def get_menu():
+    menu = html.Div(children=[
+
+        dcc.Link('Term Exploration    ', href='/dashboard', className="tab first"),
+        html.Br(),
+        dcc.Link('Gene Exploration    ', href='/geneboard', className="tab")
+
+    ], className="row inline-flex-container")
+    return menu
+
+def get_menu_term():
+    menu = html.Div(children=[
+
+        dcc.Link('Configuration    ', href='/', className="tab first"),
+        html.Br(),
+        dcc.Link('Gene Exploration    ', href='/geneboard', className="tab")
+
+    ], className="row inline-flex-container")
+    return menu
+
+
+def get_menu_gene():
+    menu = html.Div(children=[
+
+        dcc.Link('Configuration    ', href='/', className="tab first"),
+        html.Br(),
+        dcc.Link('Term Exploration    ', href='/dashboard', className="tab")
+
+    ], className="row inline-flex-container")
+    return menu
+
 headerComponent_configuration = html.Div(
-    [
-        html.Div([
+    children=[
+        html.Div(
+            children=[
             html.Img(src='https://raw.githubusercontent.com/sradiouy/IdMiner/master/logo_transparent_background.png',
-                     style={
-                         'height': '100px',
-                         'float': 'right',
-                         'position': 'relative',
-                         'bottom': '5px',
-                         'left': '0px'
-                     },
-                     ),
-            html.H2('IdMiner',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '10px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '7.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.H2('for',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '25px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '6.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.H2('Term Discovery',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '35px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '7.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.Hr(),
-        ], className='row twelve columns header-container'),
-
-        html.Div([
-            html.P(
-                '''
-            IDMINER is a tool that allows you to explore terms associated with query genes.
-            The terms are extracted from articles related to the query gene obtained from 
-            parsing PaperBLAST tool.
-            ''',
-                className='header-subtext'
-            )
-        ])
-    ])
-
-
-headerComponent_dashboard = html.Div(
-    [
-        html.Div([
-            html.Img(src='https://raw.githubusercontent.com/sradiouy/IdMiner/master/logo_transparent_background.png',
-                     style={
-                         'height': '100px',
-                         'float': 'right',
-                         'position': 'relative',
-                         'bottom': '5px',
-                         'left': '0px'
-                     },
-                     ),
-            html.H2('IdMiner:',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '10px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '7.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.H2('for',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '25px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '6.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.H2('Term Discovery',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '35px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '7.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.Hr(),
-        ], className='row twelve columns header-container', style={'position': 'relative', 'right': '15px'}),
-
-        html.Div([
-            html.P(
-                '''
-            Discover relevant terms in your set of study genes through the exploration of the most relevant terms in the set of abstracts where the study genes (or homologs) are mentioned.
-            ''',
-                className='header-subtext'
+                style={
+                    'height': '250px',
+                    "margin-left": "auto",
+	                "margin-right": "auto",
+	                "display": "block",
+                },
             ),
-            html.Hr(),
-        ])
-    ])
+            ], 
+        className='header-container'
+        ),
+        html.Br([]),
+        get_menu()
+        ]
+        )
 
+
+headerComponent_termboard = html.Div(
+    children=[
+        html.Div(
+            children=[
+            html.Img(src='https://raw.githubusercontent.com/sradiouy/IdMiner/master/logo_transparent_background.png',
+                style={
+                    'height': '200px',
+                    "margin-left": "auto",
+	                "margin-right": "auto",
+	                "display": "block",
+                },
+            ),
+            ], 
+        className='header-container'
+        ),
+        html.Br([]),
+        get_menu_term()
+        ]
+        )
 
 headerComponent_geneboard = html.Div(
-    [
-        html.Div([
+    children=[
+        html.Div(
+            children=[
             html.Img(src='https://raw.githubusercontent.com/sradiouy/IdMiner/master/logo_transparent_background.png',
-                     style={
-                         'height': '100px',
-                         'float': 'right',
-                         'position': 'relative',
-                         'bottom': '5px',
-                         'left': '0px'
-                     },
-                     ),
-            html.H2('IdMiner:',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '10px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '7.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.H2('Genes Relations',
-                    style={
-                        'position': 'relative',
-                        'top': '0px',
-                        'left': '35px',
-                        'font-family': 'Dosis',
-                        'display': 'inline',
-                        'font-size': '7.0rem',
-                        'color': '#4D637F'
-                    }),
-            html.Hr(),
-        ], className='row twelve columns header-container'),
-
-        html.Div([
-
-            html.P(
-                '''
-            In this section you can explore the relationships between your query genes. In the table you can see how many articles in common have two genes given. While in the network you can select all the articles that are related to the query gene, and also, selecting a node (from the network) you can see the articles that have in common the selected node (subject gene) and the query gene.
-            ''',
-                className='header-subtext'
+                style={
+                    'height': '200px',
+                    "margin-left": "auto",
+	                "margin-right": "auto",
+	                "display": "block",
+                },
             ),
-            html.Hr(),
-        ])
-    ])
+            ], 
+        className='header-container'
+        ),
+        html.Br([]),
+        get_menu_gene()
+        ]
+        )
+
+
+

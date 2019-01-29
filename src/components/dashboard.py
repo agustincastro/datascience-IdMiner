@@ -1,9 +1,12 @@
 import pandas as pd
 import itertools
+import base64
+import datetime
+import io
 import math
 import dash
 import dash_table
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 from pathlib import Path
@@ -14,9 +17,7 @@ import networkx as nx
 import heapq
 
 from app import app
-from src.components.header import headerComponent_dashboard
-from src.components.term_table import termTable
-
+from src.components.header import headerComponent_termboard
 
 def select_start_query(dfterms):
     try:
@@ -258,52 +259,166 @@ def create_network(query,dataframe_genes_by_articles,union_intersection):
     return fig
 
 
+def get_terms_df(contents, filename, date):
+    content_type, content_string = contents.split(',')
+
+    decoded = base64.b64decode(content_string)
+    try:
+        global dfterms #La seteo global porque como es una varaible que voy a necesitar no hay problemas.
+        if 'csv' in filename:
+            # Assume that the user uploaded a CSV file
+            dfterms = pd.read_csv(
+                io.StringIO(decoded.decode('utf-8')))
+        elif 'xls' in filename:
+            # Assume that the user uploaded an excel file
+            dfterms = pd.read_excel(io.BytesIO(decoded))
+        return dfterms
+    except Exception as e:
+        print(e,filename,"no correct format")
+
+
+def get_genes_df(contents, filename, date):
+    content_type, content_string = contents.split(',')
+
+    decoded = base64.b64decode(content_string)
+    try:
+        global dfgenesbyarticles #La seteo global porque como es una varaible que voy a necesitar no hay problemas.
+        if 'csv' in filename:
+            # Assume that the user uploaded a CSV file
+            dfgenesbyarticles = pd.read_csv(
+                io.StringIO(decoded.decode('utf-8')))
+        elif 'xls' in filename:
+            # Assume that the user uploaded an excel file
+            dfgenesbyarticles = pd.read_excel(io.BytesIO(decoded))
+        return dfgenesbyarticles
+    except Exception as e:
+        print(e,filename,"no correct format")
+       
+    
+
+def parse_contents(dfterms,dfgenesbyarticles):
+    try:
+        col = dfterms.columns[:-1]
+        return html.Div(children=[
+            html.Hr(),
+            dash_table.DataTable(
+            id='table-sorting-filtering',
+            columns=[{"name": i, "id": i, 'deletable': True}
+                    for i in dfterms[col].columns],
+            pagination_settings={
+                'current_page': 0,
+                'page_size': 10
+            },
+            pagination_mode='be',
+            sorting='be',
+            sorting_type='multi',
+            sorting_settings=[],
+            filtering='be',
+            filtering_settings='',    
+            style_table={'overflowX': 'scroll'},
+            style_header={
+                'backgroundColor': '#91B9E5',
+                'fontWeight': 'bold',
+                'font-family': 'Dosis',
+                'textAlign': 'center',
+                'font-size': '17'
+            },
+            style_cell={
+                'backgroundColor': '#FAFAFA',
+                'minWidth': '0px', 'maxWidth': '150px',
+                'whiteSpace': 'no-wrap',
+                'overflow': 'hidden',
+                'textAlign': 'center',
+                'padding': '5px',
+                'font-size': '15'
+            }),
+            html.Hr(),
+            dcc.Markdown('''#### Select Query Term:'''),
+            html.Div(
+                id='term-dropdown-container',
+                children=[
+                dcc.Dropdown(
+                    id='query-term-dropdown',
+                    options=[
+                        {'label': i.title(), 'value': i} for i in sorted(dfterms.Terms.unique())
+                    ],
+                    multi=True,
+                    value=select_start_query(dfterms) #Start query value
+                ),
+                dcc.Dropdown(
+                    id='union-intersection-dropdown',
+                    options=[
+                        {'label': 'Union', 'value': 'UNION'},
+                        {'label': 'Intersection', 'value': 'INTERSECTION'}
+                    ],
+                    value='INTERSECTION',
+                    searchable=False,
+                    clearable=False
+                )
+                ]
+            ),
+            html.Hr(),
+            dcc.Graph(id='net_graph')
+        ])
+    except Exception as e:
+        print(e)
+        return html.Div([
+            'There was an error processing this file.'
+        ])
+
 
 ####main 
 
-# dfco = pd.read_csv("data/matrix.csv", sep=",", header=0, index_col=0)
-dfterms = pd.read_csv("data/Terms-Gymnotus_DE_genes_run.csv", sep=",",
-                      header=0, low_memory=False)
-dfterms = dfterms.round(3)
-dfgenesbyarticles = pd.read_csv(
-    "data/Genes_publications-Gymnotus_DE_genes_run.csv", sep=",", header=0, low_memory=False)
-
-PAGE_SIZE = 10
 
 
+uploadOrLoadSample = html.Div(
+    className='flex-container',
+    children=[
+        dcc.Upload(
+            id="upload-data",
+            className='dashed-file-upload',
+            multiple=True,
+            children=html.Div(
+                ['Drag and Drop or ',html.A('Select Files')]
+            )),
+        html.Div(id='output-data-upload')
+    ]
+)
 
-
-layout = html.Div(children=[
-    headerComponent_dashboard,
-    termTable(PAGE_SIZE, dfterms),
-    html.Hr(),
-    dcc.Markdown('''#### Select Query Term:'''),
-    html.Div(
-        id='term-dropdown-container',
+layout = html.Div(
+    children=[
+        headerComponent_termboard,
+        html.Div(
+            id="configuration-form-container",
         children=[
-            dcc.Dropdown(
-                id='query-term-dropdown',
-                options=[
-                    {'label': i.title(), 'value': i} for i in sorted(dfterms.Terms.unique())
-                ],
-                multi=True,
-                value=select_start_query(dfterms) #Start query value
-            ),
-            dcc.Dropdown(
-                id='union-intersection-dropdown',
-                options=[
-                    {'label': 'Union', 'value': 'UNION'},
-                    {'label': 'Intersection', 'value': 'INTERSECTION'}
-                ],
-                value='INTERSECTION',
-                searchable=False,
-                clearable=False
-            )
+            html.H4('EXPLORING TERMS',className='configuration-subsection'),
+            uploadOrLoadSample,
+            html.Div(id='output-data-upload')
         ]
-    ),
-        html.Hr(),
-        dcc.Graph(id='net_graph'),
-        ])
+    )
+    ]
+)
+
+
+@app.callback(Output('output-data-upload', 'children'),
+              [Input('upload-data', 'contents')],
+              [State('upload-data', 'filename'),
+               State('upload-data', 'last_modified')])
+def update_output(list_of_contents, list_of_names, list_of_dates):
+    if list_of_contents is not None:
+        if len(list_of_contents) ==2:
+            for contents, names, dates in zip(list_of_contents, list_of_names, list_of_dates):
+                if str(names).split("_")[-1] == "IDMiner-Terms.csv":
+                    get_terms_df(contents, names, dates)
+                elif names.split("_")[-1] == "IDMiner-Genes.csv":
+                    get_genes_df(contents, names, dates)
+                else:
+                    return html.Div(['There was an error processing this file. You need to put both of this files, (yourname_IDMiner-Terms.csv,yourname_IDMiner-Genes.csv)'])
+        else:
+             return html.Div(['There was an error processing this file. You need to put BOTH (2) of this files, (yourname_IDMiner-Terms.csv,yourname_IDMiner-Genes.csv)'])
+        children = [parse_contents(dfterms, dfgenesbyarticles)]
+        return children
+
 
 
 @app.callback(
@@ -355,7 +470,4 @@ def load_graph(selected_dropdown_value, union_intersection):
             return graph
         else:
             return {} 
-
-
-
 

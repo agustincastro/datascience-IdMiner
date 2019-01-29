@@ -1,0 +1,148 @@
+01/28/2019 10:24:08 PM - IdMiner - ERROR: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Programs\Python\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 962, in dispatch
+    return self.callback_map[target_id]['callback'](*args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 902, in add_context
+    output_value = func(*args, **kwargs)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\components\configuration.py", line 254, in update_output
+    articles = ids_by_gene("algo",input_file,formatfile,coverage,identity)
+UnboundLocalError: local variable 'input_file' referenced before assignment
+01/28/2019 10:24:08 PM - IdMiner - INFO: 127.0.0.1 - - [28/Jan/2019 22:24:08] "POST /_dash-update-component HTTP/1.1" 500 -
+01/28/2019 10:24:27 PM - IdMiner - ERROR: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Programs\Python\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 962, in dispatch
+    return self.callback_map[target_id]['callback'](*args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 902, in add_context
+    output_value = func(*args, **kwargs)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\components\configuration.py", line 254, in update_output
+    articles = ids_by_gene("algo",input_file,formatfile,coverage,identity)
+UnboundLocalError: local variable 'input_file' referenced before assignment
+01/28/2019 10:24:27 PM - IdMiner - INFO: 127.0.0.1 - - [28/Jan/2019 22:24:27] "POST /_dash-update-component HTTP/1.1" 500 -
+01/28/2019 10:24:42 PM - IdMiner - ERROR: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Programs\Python\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 962, in dispatch
+    return self.callback_map[target_id]['callback'](*args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 902, in add_context
+    output_value = func(*args, **kwargs)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\components\configuration.py", line 254, in update_output
+    articles = ids_by_gene("algo",input_file,formatfile,coverage,identity)
+UnboundLocalError: local variable 'input_file' referenced before assignment
+01/28/2019 10:24:42 PM - IdMiner - INFO: 127.0.0.1 - - [28/Jan/2019 22:24:42] "POST /_dash-update-component HTTP/1.1" 500 -
+01/28/2019 10:25:45 PM - IdMiner - ERROR: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Programs\Python\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 962, in dispatch
+    return self.callback_map[target_id]['callback'](*args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 902, in add_context
+    output_value = func(*args, **kwargs)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\components\configuration.py", line 254, in update_output
+    articles = ids_by_gene("algo",input_file,formatfile,coverage,identity)
+UnboundLocalError: local variable 'input_file' referenced before assignment
+01/28/2019 10:25:45 PM - IdMiner - INFO: 127.0.0.1 - - [28/Jan/2019 22:25:45] "POST /_dash-update-component HTTP/1.1" 500 -
+01/28/2019 10:27:50 PM - IdMiner - INFO: Searching TcCLB.509455.120 in paperblast!
+01/28/2019 10:27:59 PM - IdMiner - INFO:  -- 63 homologues detected
+01/28/2019 10:27:59 PM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+01/28/2019 10:27:59 PM - IdMiner - INFO: Searching TcCLB.510165.20 in paperblast!
+01/28/2019 10:28:02 PM - IdMiner - INFO:  -- 6 homologues detected
+01/28/2019 10:28:02 PM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+01/28/2019 10:28:02 PM - IdMiner - INFO: Searching TcCLB.503613.40 in paperblast!
+01/28/2019 10:28:06 PM - IdMiner - INFO:  -- 15 homologues detected
+01/28/2019 10:28:06 PM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+01/28/2019 10:28:06 PM - IdMiner - INFO: Searching TcCLB.507611.320 in paperblast!
+01/28/2019 10:28:07 PM - IdMiner - INFO:  -- 0 homologues detected
+01/28/2019 10:28:07 PM - IdMiner - INFO: Searching TcCLB.506811.120 in paperblast!
+01/28/2019 10:28:10 PM - IdMiner - INFO:  -- 0 homologues detected
+01/28/2019 10:28:10 PM - IdMiner - INFO: Searching TcCLB.511395.70 in paperblast!
+01/28/2019 10:28:13 PM - IdMiner - INFO:  -- 2 homologues detected
+01/28/2019 10:28:13 PM - IdMiner - INFO:  -- There were 0 homologues, with at least % 50 coverage and % 50  identity
+01/28/2019 10:28:13 PM - IdMiner - INFO: Searching TcCLB.510741.110 in paperblast!
+01/28/2019 10:28:15 PM - IdMiner - INFO:  -- 0 homologues detected
+01/28/2019 10:28:15 PM - IdMiner - INFO: Searching TcCLB.508239.10 in paperblast!
+01/28/2019 10:28:22 PM - IdMiner - INFO:  -- 51 homologues detected
+01/28/2019 10:28:22 PM - IdMiner - INFO:  -- There were 1 homologues, with at least % 50 coverage and % 50  identity
+01/28/2019 10:28:22 PM - IdMiner - INFO:  -- 1 articles recovered
+01/28/2019 10:28:22 PM - IdMiner - INFO: Fetch article -> Duration 32 seconds
+01/28/2019 10:28:22 PM - IdMiner - INFO: Fetching abstracts for: TcCLB.508239.10
+01/28/2019 10:28:24 PM - IdMiner - INFO:  -- we can retrieve 1 articles
+01/28/2019 10:28:24 PM - IdMiner - INFO: There was in total 1 unique articles for 1 genes
+01/28/2019 10:28:24 PM - IdMiner - INFO: Abstract by Term -> Duration 2 seconds
+01/28/2019 10:28:28 PM - IdMiner - INFO: Total terms 25
+01/28/2019 10:28:28 PM - IdMiner - INFO: Total terms to be analyzed 7
+01/28/2019 10:28:28 PM - IdMiner - INFO: Clean Terms -> Duration 4 seconds
+01/28/2019 10:28:29 PM - IdMiner - INFO: Reports -> Duration 0 seconds
+01/28/2019 10:28:29 PM - IdMiner - INFO: 127.0.0.1 - - [28/Jan/2019 22:28:29] "POST /_dash-update-component HTTP/1.1" 200 -
+01/28/2019 10:38:12 PM - IdMiner - ERROR: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Programs\Python\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Programs\Python\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 962, in dispatch
+    return self.callback_map[target_id]['callback'](*args)
+  File "D:\Programs\Python\lib\site-packages\dash\dash.py", line 902, in add_context
+    output_value = func(*args, **kwargs)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\components\configuration.py", line 257, in update_output
+    articles = ids_by_gene("algo",input_file,formatfile,coverage,identity)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\FetchArticles.py", line 243, in ids_by_gene
+    genes = check_format(input_file,format_file) #Check format and return genes name (and if fasta sequence)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\FetchArticles.py", line 221, in check_format
+    genes = get_genes_ids_from_file(input_file)
+  File "c:\Users\santi\Documents\GitHub\datascience-IdMiner\src\FetchArticles.py", line 27, in get_genes_ids_from_file
+    return open(file_input,"r").read().split("\n")
+TypeError: expected str, bytes or os.PathLike object, not _io.StringIO
+01/28/2019 10:38:12 PM - IdMiner - INFO: 127.0.0.1 - - [28/Jan/2019 22:38:12] "POST /_dash-update-component HTTP/1.1" 500 -
